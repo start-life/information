@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תיעוד מודרני</title>
+	<link rel="icon" type="image/png" href="icon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo-container {
+            flex-shrink: 0;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .update-date {
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .update-date::before {
+            content: "📅";
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        .whats-new {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+        }
+
+        .whats-new::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .badge.toc-badge {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-item {
+            margin-bottom: 4px;
+        }
+
+        .toc-h1-item {
+            margin-bottom: 8px;
+        }
+
+        .toc-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border-right: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .toc-link:hover {
+            background: #fef5f7;
+            color: #f5576c;
+            border-right-color: #f5576c;
+            transform: translateX(-5px);
+        }
+
+        .toc-link.active {
+            background: #fef5f7;
+            color: #f5576c;
+            border-right-color: #f5576c;
+            font-weight: 600;
+        }
+
+        .toc-link.level-1 {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .toc-link.level-2 {
+            padding-right: 25px;
+        }
+
+        .toc-link.level-3 {
+            padding-right: 35px;
+            font-size: 13px;
+        }
+
+        .toc-toggle {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            margin-left: 8px;
+        }
+
+        .toc-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .toc-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .toc-children.expanded {
+            max-height: 500px;
+        }
+
+        .content-area {
+            margin-top: 20px;
+        }
+
+        .preview {
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+            min-height: 150px;
+            line-height: 1.8;
+        }
+
+        .preview h1, .preview h2, .preview h3 {
+            color: #2d3748;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        .preview h1 { font-size: 2em; }
+        .preview h2 { font-size: 1.5em; }
+        .preview h3 { font-size: 1.2em; }
+
+        .preview p {
+            margin-bottom: 1em;
+            color: #4a5568;
+        }
+
+        .preview ul, .preview ol {
+            margin: 1em 0;
+            padding-right: 2em;
+        }
+
+        .preview li {
+            margin-bottom: 0.5em;
+            color: #4a5568;
+        }
+
+        .preview code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .preview pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1em 0;
+            position: relative;
+        }
+
+        .preview pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-button:hover {
+            opacity: 1;
+        }
+
+        .copy-button.copied {
+            background: #48bb78;
+        }
+
+        .preview blockquote {
+            border-right: 4px solid #667eea;
+            padding-right: 15px;
+            margin: 1em 0;
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .docs-editor {
+            display: none;
+        }
+
+        @media (max-width: 968px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: contents;
+            }
+
+            .whats-new {
+                order: 1;
+            }
+
+            .toc-section {
+                order: 2;
+            }
+
+            .card:not(.whats-new):not(.toc-section) {
+                order: 3;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://via.placeholder.com/80/667eea/ffffff?text=LOGO" alt="Logo" class="logo" id="logoImage">
+            </div>
+            <div class="header-content">
+                <div class="update-date" id="updateDate">עדכון אחרון: 01/12/2025</div>
+                <h1>📚 תיעוד טכני מודרני</h1>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="sidebar">
+                <!-- What's New Section -->
+                <div class="card whats-new">
+                    <span class="badge pulse">⭐ מה חדש</span>
+                    <div class="content-area">
+                        <div class="preview" id="whatsNewPreview"></div>
+                    </div>
+                </div>
+
+                <!-- Table of Contents -->
+                <div class="card toc-section">
+                    <span class="badge toc-badge">📑 תוכן עניינים</span>
+                    <div class="content-area">
+                        <ul class="toc-list" id="tocList"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Documentation Section -->
+            <div class="card">
+                <span class="badge">📖 תיעוד מלא</span>
+                <div class="content-area">
+                    <div class="preview" id="docsPreview"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== הגדרות - ערוך כאן =====
+        
+        // לוגו (שים את הקישור ללוגו שלך כאן)
+        const logoUrl = "icon.png";
+        
+        // Update date automatically
+        //const updateDateEl = document.getElementById('updateDate');
+        //const today = new Date();
+        //const dateStr = today.toLocaleDateString('he-IL');
+        //updateDateEl.textContent = `עדכון אחרון: ${dateStr}`;
+
+        // Set logo
+        document.getElementById('logoImage').src = logoUrl;
+
+        // Content to render (edit here in Markdown format)
+        const whatsNewContent = `## גרסה 2.0 🚀
+
+- **תכונה חדשה**: תמיכה מלאה ב-Markdown
+- **עיצוב מחודש**: ממשק משתמש מודרני ורספונסיבי
+- **שיפורי ביצועים**: טעינה מהירה יותר פי 2
+
+---
+
+## שיפורים נוספים
+- תמיכה ב-RTL מושלמת
+- אנימציות חלקות
+- מצב כהה (בקרוב)`;
+
+        const docsContent = `# ברוכים הבאים למערכת
+
+## מבוא
+מערכת זו מאפשרת לכם לנהל תיעוד טכני בצורה נוחה ויעילה באמצעות **Markdown**.
+
+## תכונות עיקריות
+
+### עריכה קלה
+- כתיבה ב-Markdown פשוט
+- תצוגה מקדימה בזמן אמת
+- עיצוב מודרני ומושך
+
+### רספונסיביות
+המערכת מותאמת לכל גודל מסך:
+- מחשבים נייחים 💻
+- טאבלטים 📱
+- סמארטפונים 📲
+
+## דוגמאות שימוש
+
+### קוד לדוגמה
+\`\`\`javascript
+function hello() {
+    console.log("Hello World!");
+}
+\`\`\`
+
+### ציטוט
+> "הדרך הטובה ביותר לחזות את העתיד היא ליצור אותו" - אברהם לינקולן
+
+## סיכום
+התחילו לכתוב את התיעוד שלכם עכשיו! ✨`;
+
+        // Render markdown
+        document.getElementById('whatsNewPreview').innerHTML = marked.parse(whatsNewContent);
+        document.getElementById('docsPreview').innerHTML = marked.parse(docsContent);
+
+        // Generate Table of Contents with collapsible sections
+        function generateTOC() {
+            const docsPreview = document.getElementById('docsPreview');
+            const tocList = document.getElementById('tocList');
+            const headings = docsPreview.querySelectorAll('h1, h2, h3');
+            
+            tocList.innerHTML = '';
+            
+            let currentH1 = null;
+            let currentH1Children = null;
+            
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const text = heading.textContent;
+                const id = `heading-${index}`;
+                
+                // Add ID to heading for anchor
+                heading.id = id;
+                
+                if (level === 1) {
+                    // Create H1 item with toggle
+                    const li = document.createElement('li');
+                    li.className = 'toc-item toc-h1-item';
+                    
+                    const link = document.createElement('a');
+                    link.className = 'toc-link level-1';
+                    
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = text;
+                    
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.textContent = '◀';
+                    
+                    link.appendChild(textSpan);
+                    link.appendChild(toggle);
+                    
+                    // Create children container
+                    const childrenUl = document.createElement('ul');
+                    childrenUl.className = 'toc-children';
+                    
+                    // Toggle children on click
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const isExpanded = childrenUl.classList.contains('expanded');
+                        
+                        if (isExpanded) {
+                            childrenUl.classList.remove('expanded');
+                            toggle.classList.remove('expanded');
+                        } else {
+                            childrenUl.classList.add('expanded');
+                            toggle.classList.add('expanded');
+                            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                        
+                        // Update active state
+                        document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    });
+                    
+                    li.appendChild(link);
+                    li.appendChild(childrenUl);
+                    tocList.appendChild(li);
+                    
+                    currentH1 = li;
+                    currentH1Children = childrenUl;
+                    
+                } else if (level === 2 || level === 3) {
+                    // Create H2/H3 items as children of H1
+                    if (currentH1Children) {
+                        const li = document.createElement('li');
+                        li.className = 'toc-item';
+                        
+                        const link = document.createElement('a');
+                        link.className = `toc-link level-${level}`;
+                        link.textContent = text;
+                        
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            
+                            // Update active state
+                            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                        });
+                        
+                        li.appendChild(link);
+                        currentH1Children.appendChild(li);
+                    }
+                }
+            });
+        }
+
+        generateTOC();
+
+        // Add copy buttons to code blocks
+        function addCopyButtons() {
+            const codeBlocks = document.querySelectorAll('pre');
+            codeBlocks.forEach((block) => {
+                const button = document.createElement('button');
+                button.className = 'copy-button';
+                button.textContent = 'העתק';
+                
+                button.addEventListener('click', () => {
+                    const code = block.querySelector('code').textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        button.textContent = '✓ הועתק';
+                        button.classList.add('copied');
+                        setTimeout(() => {
+                            button.textContent = 'העתק';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+                
+                block.style.position = 'relative';
+                block.appendChild(button);
+            });
+        }
+
+        addCopyButtons();
+    </script>
+</body>
+</html>
