@@ -4,22 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מערכת תיעוד מתקדמת</title>
+    
     <link rel="icon" type="image/png" href="icon.png">
     
-    <!-- ספריות חיצוניות -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* === הגדרות משתנים וצבעים (Theming) === */
+        /* === Themes === */
         :root {
-            /* צבעים קבועים */
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #ec4899;
             
-            /* משתנים משתנים (Light Mode Defaults) */
             --bg-body: #f0f2f5;
             --bg-grad-start: #f0f2f5;
             --bg-grad-end: #eef2ff;
@@ -31,20 +29,18 @@
             --text-medium: #475569;
             --text-light: #94a3b8;
             
-            --border: #e2e8f0;
+            --border: #cbd5e1;
             --shadow-color: rgba(0,0,0,0.05);
             
             --code-bg: #1e293b;
             --code-text: #e2e8f0;
             
-            /* כפתור מה חדש (בהיר) */
             --btn-update-bg: #fffbeb;
             --btn-update-border: #fbbf24;
             --btn-update-text: #b45309;
             --btn-update-hover: #fef3c7;
         }
 
-        /* === מצב כהה (Dark Mode) === */
         [data-theme="dark"] {
             --bg-body: #0f172a;
             --bg-grad-start: #0f172a;
@@ -57,10 +53,9 @@
             --text-medium: #cbd5e1;
             --text-light: #94a3b8;
             
-            --border: #334155;
+            --border: #475569;
             --shadow-color: rgba(0,0,0,0.3);
 
-            /* כפתור מה חדש (כהה) - שלא יסנוור */
             --btn-update-bg: #451a03;
             --btn-update-border: #92400e;
             --btn-update-text: #fcd34d;
@@ -80,7 +75,7 @@
 
         .main-container { display: flex; min-height: 100vh; }
 
-        /* === סרגל צד (Sidebar) === */
+        /* === Sidebar === */
         .sidebar {
             width: 340px;
             background: var(--bg-sidebar);
@@ -90,7 +85,7 @@
             display: flex; flex-direction: column;
             z-index: 1000;
             border-left: 1px solid var(--border);
-            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
         .sidebar-fixed-top {
@@ -101,75 +96,31 @@
             transition: background 0.3s ease;
         }
 
-        /* כפתור החלפת ערכת נושא */
-        .theme-toggle-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 30;
-        }
-
+        .theme-toggle-container { position: absolute; top: 20px; left: 20px; z-index: 30; }
         .theme-toggle {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            color: var(--text-medium);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            background: var(--bg-input); border: 1px solid var(--border);
+            color: var(--text-medium); width: 35px; height: 35px;
+            border-radius: 50%; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: all 0.3s ease;
         }
+        .theme-toggle:hover { color: var(--primary); border-color: var(--primary); transform: rotate(15deg); }
 
-        .theme-toggle:hover {
-            color: var(--primary);
-            border-color: var(--primary);
-            transform: rotate(15deg);
-        }
-
-        .sidebar-header { padding: 35px 25px 20px; text-align: center; position: relative; }
+        .sidebar-header { padding: 35px 25px 20px; text-align: center; }
 
         .logo-container {
-            position: relative;
-            width: 90px; height: 90px;
-            margin: 0 auto 15px;
-        }
-
-        /* === עיצוב הלוגו החדש (המתוקן) === */
-        .logo-container {
-            position: relative;
-            width: 90px; height: 90px;
-            margin: 0 auto 15px;
-            background: var(--bg-input); 
-            border-radius: 50%;
+            position: relative; width: 90px; height: 90px;
+            margin: 0 auto 15px; background: var(--bg-input); border-radius: 50%;
         }
 
         .logo {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            padding: 3px; /* מרווח פנימי */
-            background: var(--bg-sidebar);
-            
-            /* התיקון: קו הפרדה דק + מרווח + מסגרת צבעונית */
-            box-shadow: 
-                0 0 0 1px var(--border),      /* קו הפרדה כדי שהלבן לא יבלע */
-                0 0 0 4px var(--bg-sidebar),  /* מרווח */
-                0 0 0 7px var(--primary),     /* מסגרת צבעונית */
-                0 10px 25px rgba(99, 102, 241, 0.4); /* צללית */
-                
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            padding: 3px; background: var(--bg-sidebar);
+            box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--bg-sidebar), 0 0 0 7px var(--primary), 0 10px 25px rgba(99, 102, 241, 0.4);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
         }
-
         .logo-container:hover .logo { 
             transform: scale(1.08) rotate(3deg);
-            box-shadow: 
-                0 0 0 1px var(--border),
-                0 0 0 4px var(--bg-sidebar),
-                0 0 0 8px var(--secondary), /* שינוי צבע בריחוף */
-                0 15px 35px rgba(236, 72, 153, 0.5);
+            box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--bg-sidebar), 0 0 0 8px var(--secondary), 0 15px 35px rgba(236, 72, 153, 0.5);
         }
 
         .logo-text h1 {
@@ -179,86 +130,41 @@
         }
         .logo-text .subtitle { font-size: 0.85em; color: var(--text-medium); }
 
-        /* חיפוש */
         .search-container { padding: 0 25px; margin-bottom: 10px; }
         .search-box { position: relative; }
         .search-input {
             width: 100%; padding: 10px 40px 10px 15px;
             border: 2px solid var(--border); border-radius: 12px;
-            background: var(--bg-input); 
-            color: var(--text-main);
-            transition: all 0.3s;
+            background: var(--bg-input); color: var(--text-main); transition: all 0.3s;
         }
-        .search-input:focus {
-            outline: none; border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-        .search-icon {
-            position: absolute; left: 15px; top: 50%;
-            transform: translateY(-50%); color: var(--text-light);
-        }
+        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
         .sidebar-scroll-area {
-            flex: 1; overflow-y: auto; padding: 10px 25px 30px;
-            scrollbar-width: thin;
+            flex: 1; overflow-y: auto; padding: 10px 25px 30px; scrollbar-width: thin;
         }
         .sidebar-scroll-area::-webkit-scrollbar { width: 6px; }
         .sidebar-scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-        /* === תפריט ניווט דפים === */
-        .page-navigation {
-            display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap;
-        }
-
+        .page-navigation { display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
         .nav-btn {
-            flex: 1; min-width: 75px;
-            background: var(--bg-card); 
-            border: 1px solid var(--border);
-            padding: 8px 5px; border-radius: 10px;
+            flex: 1; min-width: 75px; background: var(--bg-card); 
+            border: 1px solid var(--border); padding: 8px 5px; border-radius: 10px;
             font-size: 13px; font-weight: 600; color: var(--text-medium);
-            cursor: pointer; transition: all 0.2s;
-            display: flex; flex-direction: column;
+            cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column;
             align-items: center; justify-content: center; gap: 5px;
         }
-
-        .nav-btn:hover {
-            border-color: var(--primary); color: var(--primary);
-        }
-
-        .nav-btn.active {
-            background: var(--primary); color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
-        }
-        
-        /* התאמת צבעים בתוך כפתור פעיל במצב כהה */
+        .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3); }
         .nav-btn.active i, .nav-btn.active { color: white !important; }
 
-        /* === כפתור "מה חדש" (מותאם למשתנים) === */
-        #btn-updates {
-            background: var(--btn-update-bg);
-            border-color: var(--btn-update-border);
-            color: var(--btn-update-text);
-        }
+        #btn-updates { background: var(--btn-update-bg); border-color: var(--btn-update-border); color: var(--btn-update-text); }
         #btn-updates i { color: var(--btn-update-text); margin-bottom: 3px; font-size: 1.2em; }
-        
-        #btn-updates:hover {
-            background: var(--btn-update-hover);
-        }
-
-        #btn-updates.active {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white; border-color: #d97706;
-        }
+        #btn-updates:hover { background: var(--btn-update-hover); }
+        #btn-updates.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-color: #d97706; }
         #btn-updates.active i { color: white; }
 
-
-        /* === תוכן עניינים === */
-        .section-badge {
-            font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--text-light); font-weight: 700;
-            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
-        }
+        .section-badge { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .section-badge::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
         .toc-list { list-style: none; padding: 0; margin: 0; }
@@ -266,91 +172,55 @@
         .toc-list li.open > ul { display: block; animation: slideDown 0.3s ease; }
         .toc-list li.open > .toc-row .toc-arrow { transform: rotate(-90deg); }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .toc-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 8px 10px; border-radius: 6px;
-            cursor: pointer; transition: all 0.2s;
-            color: var(--text-medium);
-        }
-
+        .toc-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; color: var(--text-medium); }
         .toc-row:hover { background: rgba(99, 102, 241, 0.05); color: var(--primary); }
-        .toc-row.active {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary); font-weight: 600;
-        }
-
+        .toc-row.active { background: rgba(99, 102, 241, 0.1); color: var(--primary); font-weight: 600; }
         .toc-link-text { flex: 1; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .toc-arrow { font-size: 10px; color: var(--text-light); width: 20px; display: flex; justify-content: center; transition: transform 0.3s ease; margin-left: 5px; }
         .no-children .toc-arrow { visibility: hidden; }
 
-        /* === תוכן ראשי === */
-        .main-content {
-            flex: 1; margin-right: 340px;
-            padding: 40px; width: calc(100% - 340px);
-        }
-
-        .content-card {
-            background: var(--bg-card); border-radius: 20px;
-            padding: 60px; box-shadow: 0 5px 20px var(--shadow-color);
-            max-width: 950px; margin: 0 auto; min-height: 85vh;
-            animation: fadeIn 0.4s ease;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
+        .main-content { flex: 1; margin-right: 340px; padding: 40px; width: calc(100% - 340px); position: relative; }
+        .content-card { background: var(--bg-card); border-radius: 20px; padding: 60px; box-shadow: 0 5px 20px var(--shadow-color); max-width: 950px; margin: 0 auto; min-height: 85vh; animation: fadeIn 0.4s ease; transition: background 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Markdown Styling */
+        /* Markdown Styling + Anchors */
         .preview { color: var(--text-main); line-height: 1.8; }
+        .preview h1, .preview h2, .preview h3 { position: relative; margin-top: 1.5em; scroll-margin-top: 20px; }
+        
+        .anchor-link {
+            position: absolute; right: -35px; top: 50%; transform: translateY(-50%);
+            color: var(--primary); opacity: 0; transition: opacity 0.2s ease;
+            text-decoration: none; font-size: 0.6em; padding: 5px;
+        }
+        .preview h1:hover .anchor-link, .preview h2:hover .anchor-link, .preview h3:hover .anchor-link { opacity: 1; }
+        @media (max-width: 768px) { .anchor-link { opacity: 1; color: var(--text-light); } }
+
         .preview h1 { font-size: 2.4em; margin-bottom: 0.6em; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 15px; }
         .preview h2 { font-size: 1.8em; margin: 1.5em 0 0.8em; color: var(--text-main); font-weight: 700; }
         .preview h3 { font-size: 1.4em; margin: 1.2em 0 0.6em; color: var(--primary); }
         .preview p { margin-bottom: 1.2em; font-size: 1.05em; color: var(--text-medium); }
-        .preview ul, .preview ol { margin: 1em 0; padding-right: 2em; color: var(--text-medium); }
-        .preview li { margin-bottom: 0.5em; }
-        .preview strong { color: var(--text-main); }
-        
-        .preview blockquote { 
-            border-right: 4px solid var(--secondary); 
-            background: rgba(236, 72, 153, 0.05); 
-            color: var(--text-medium);
-            padding: 10px 20px; margin: 20px 0; border-radius: 4px; 
-        }
-        
-        .preview pre {
-            background: var(--code-bg); padding: 20px; border-radius: 12px;
-            overflow-x: auto; margin: 1.5em 0; position: relative; direction: ltr;
-            border: 1px solid var(--border);
-        }
+        .preview pre { background: var(--code-bg); padding: 20px; border-radius: 12px; overflow-x: auto; margin: 1.5em 0; position: relative; direction: ltr; border: 1px solid var(--border); }
         .preview code { font-family: 'Consolas', monospace; color: var(--code-text); }
-        .preview p code { 
-            background: var(--bg-input); 
-            color: #ef4444; 
-            padding: 2px 6px; border-radius: 4px; 
-            direction: ltr; display: inline-block; 
-            font-family: 'Consolas', monospace;
-            border: 1px solid var(--border);
-        }
-
-        .copy-button {
-            position: absolute; top: 10px; right: 10px;
-            background: rgba(255,255,255,0.1); color: white;
-            border: none; padding: 5px 10px; border-radius: 6px;
-            cursor: pointer; font-size: 12px; transition: 0.2s;
-        }
+        .preview p code { background: var(--bg-input); color: #ef4444; padding: 2px 6px; border-radius: 4px; direction: ltr; display: inline-block; font-family: 'Consolas', monospace; border: 1px solid var(--border); }
+        
+        .copy-button { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: 0.2s; }
         .copy-button:hover { background: rgba(255,255,255,0.2); }
 
-        .mobile-toggle {
-            display: none; position: fixed; bottom: 25px; left: 25px;
-            width: 55px; height: 55px; border-radius: 50%;
-            background: var(--primary); color: white;
-            border: none; font-size: 22px;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-            z-index: 1001; cursor: pointer;
+        .mobile-toggle { display: none; position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 22px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); z-index: 1001; cursor: pointer; }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; left: 30px; right: auto;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            box-shadow: 0 4px 15px var(--shadow-color); cursor: pointer;
+            z-index: 999; opacity: 0; visibility: hidden;
+            transform: translateY(20px); transition: all 0.3s ease;
+            font-size: 20px; display: flex; align-items: center; justify-content: center;
         }
+        .scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        .scroll-top:hover { background: var(--primary-dark); transform: translateY(-5px); }
 
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(100%); }
@@ -358,32 +228,27 @@
             .main-content { margin-right: 0; width: 100%; padding: 20px; }
             .mobile-toggle { display: block; }
             .content-card { padding: 30px 20px; }
+            .scroll-top { left: auto; right: 25px; bottom: 25px; }
         }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-fixed-top">
-                <!-- כפתור מצב כהה -->
                 <div class="theme-toggle-container">
-                    <button class="theme-toggle" id="themeToggle" title="החלף ערכת נושא">
-                        <i class="fas fa-moon"></i>
-                    </button>
+                    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
                 </div>
-
                 <div class="sidebar-header">
                     <div class="logo-container">
-                        <img src="icon.png" alt="Logo" class="logo" id="logoImage">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="logo" id="logoImage">
                     </div>
                     <div class="logo-text">
                         <h1>דוקס פרו</h1>
                         <div class="subtitle">מערכת תיעוד ארגונית</div>
                     </div>
                 </div>
-
                 <div class="search-container">
                     <div class="search-box">
                         <input type="text" class="search-input" id="searchInput" placeholder="חפש בתיעוד...">
@@ -391,40 +256,30 @@
                     </div>
                 </div>
             </div>
-
             <div class="sidebar-scroll-area">
-                
-                <div class="page-navigation" id="pageNav">
-                    <!-- Dynamic -->
-                </div>
-
+                <div class="page-navigation" id="pageNav"></div>
                 <div class="section-badge">תוכן עניינים</div>
-                <nav>
-                    <ul class="toc-list" id="tocList"></ul>
-                </nav>
-                <div id="noResults" style="display:none; text-align:center; padding:20px; color:var(--text-light); font-size:13px;">
-                    לא נמצאו תוצאות לחיפוש
-                </div>
+                <nav><ul class="toc-list" id="tocList"></ul></nav>
+                <div id="noResults" style="display:none; text-align:center; padding:20px; color:var(--text-light); font-size:13px;">לא נמצאו תוצאות</div>
             </div>
         </aside>
 
         <main class="main-content">
+            <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
             <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
             <div class="content-card">
                 <div class="preview" id="docsPreview"></div>
             </div>
         </main>
     </div>
-    <!-- טעינת התוכן מבחוץ -->
-    <script src="content.js"></script> 
+
+    <!-- טעינת התוכן -->
+    <script src="content.js"></script>
+
     <script>
-        // ==========================================
-        //  Theme Logic (Dark Mode)
-        // ==========================================
+        // === Theme Logic ===
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
-        
-        // בדיקה אם יש העדפה שמורה או העדפת מערכת
         const savedTheme = localStorage.getItem('theme');
         const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
@@ -446,34 +301,69 @@
             }
         });
 
-        // ==========================================
-        //  Logic
-        // ==========================================
-
+        // === Main Logic ===
         let currentPage = 'guide'; 
 
         function init() {
+            if (typeof pagesData === 'undefined') {
+                document.getElementById('docsPreview').innerHTML = '<h2 style="color:red">שגיאה: content.js חסר.</h2>';
+                return;
+            }
+
+            // 1. קריאת פרמטרים מה-URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageParam = urlParams.get('page');
+
+            // 2. קביעת הדף הנוכחי
+            if (pageParam && pagesData[pageParam]) {
+                currentPage = pageParam;
+            }
+
             renderPageNavigation();
             loadPage(currentPage);
             setupEventListeners();
+            setupScrollTop(); 
         }
 
         function renderPageNavigation() {
             const nav = document.getElementById('pageNav');
             nav.innerHTML = '';
-
             Object.keys(pagesData).forEach(key => {
                 const page = pagesData[key];
                 const btn = document.createElement('div');
                 btn.className = `nav-btn ${key === currentPage ? 'active' : ''}`;
-                
-                if (key === 'updates') {
-                    btn.id = 'btn-updates';
-                }
-
+                if (key === 'updates') btn.id = 'btn-updates';
                 btn.innerHTML = `<i class="${page.icon}"></i> ${page.title}`;
-                btn.onclick = () => loadPage(key);
+                
+                // עדכון ה-URL בלחיצה על דף (טאב)
+                btn.onclick = () => {
+                    const newUrl = `?page=${key}`;
+                    window.history.pushState({page: key}, '', newUrl);
+                    loadPage(key);
+                };
                 nav.appendChild(btn);
+            });
+        }
+
+        function slugify(text) {
+            return text.toString().toLowerCase().trim()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\u0590-\u05ff\-]+/g, '')
+                .replace(/\-\-+/g, '-');
+        }
+
+        function addAnchorsToHeadings() {
+            const headings = document.querySelectorAll('#docsPreview h1, #docsPreview h2, #docsPreview h3');
+            headings.forEach(h => {
+                const text = h.textContent;
+                const id = slugify(text);
+                h.id = id;
+                const link = document.createElement('a');
+                link.className = 'anchor-link';
+                // הקישור כולל את הדף הנוכחי בפרמטרים
+                link.href = `?page=${currentPage}#${id}`;
+                link.innerHTML = '<i class="fas fa-link"></i>';
+                h.insertBefore(link, h.firstChild);
             });
         }
 
@@ -481,28 +371,42 @@
             currentPage = pageKey;
             const page = pagesData[pageKey];
             
-            renderPageNavigation(); 
+            // סימון ויזואלי של הכפתור
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                // בדיקה פשוטה כדי לא לרנדר מחדש את הכל
+                if(btn.innerText.includes(page.title)) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
 
             const preview = document.getElementById('docsPreview');
             preview.style.opacity = '0';
             
             setTimeout(() => {
                 preview.innerHTML = marked.parse(page.content);
+                addAnchorsToHeadings(); 
                 preview.style.opacity = '1';
                 generateNestedTOC(); 
                 addCopyButtons();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                if (window.location.hash) {
+                    const id = window.location.hash.substring(1);
+                    setTimeout(() => {
+                        const element = document.getElementById(decodeURIComponent(id));
+                        if (element) element.scrollIntoView({behavior: 'smooth'});
+                    }, 100);
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }, 150);
         }
 
         function generateNestedTOC() {
             const tocList = document.getElementById('tocList');
             tocList.innerHTML = '';
-            
             const headings = Array.from(document.getElementById('docsPreview').querySelectorAll('h1, h2, h3'));
             
             if (headings.length === 0) {
-                tocList.innerHTML = '<li style="padding:10px; font-size:12px; opacity:0.6; color:var(--text-light)">אין כותרות בדף זה</li>';
+                tocList.innerHTML = '<li style="padding:10px; font-size:12px; opacity:0.6; color:var(--text-light)">אין כותרות</li>';
                 return;
             }
 
@@ -511,67 +415,45 @@
 
             headings.forEach((h, index) => {
                 const level = parseInt(h.tagName.charAt(1));
-                h.id = `heading-${index}`; 
-
                 const li = document.createElement('li');
                 li.className = 'toc-item';
-                
                 const row = document.createElement('div');
                 row.className = 'toc-row';
-                
                 const arrow = document.createElement('span');
                 arrow.className = 'toc-arrow';
                 arrow.innerHTML = '<i class="fas fa-caret-left"></i>'; 
                 
                 const text = document.createElement('span');
                 text.className = 'toc-link-text';
-                text.textContent = h.textContent;
+                text.textContent = h.childNodes[1] ? h.childNodes[1].textContent : h.textContent;
 
-                row.appendChild(arrow);
-                row.appendChild(text);
-                li.appendChild(row);
-
-                const childrenUl = document.createElement('ul');
-                li.appendChild(childrenUl);
-
+                row.appendChild(arrow); row.appendChild(text); li.appendChild(row);
+                const childrenUl = document.createElement('ul'); li.appendChild(childrenUl);
+                
                 row.onclick = (e) => {
                     h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // עדכון URL כולל Page ו-Hash
+                    const newUrl = `?page=${currentPage}#${h.id}`;
+                    history.pushState(null, null, newUrl);
+
                     document.querySelectorAll('.toc-row').forEach(r => r.classList.remove('active'));
                     row.classList.add('active');
-
-                    if (!li.classList.contains('no-children')) {
-                        li.classList.toggle('open');
-                    }
-                    
+                    if (!li.classList.contains('no-children')) li.classList.toggle('open');
                     if(window.innerWidth <= 1024 && li.classList.contains('no-children')) {
                         document.getElementById('sidebar').classList.remove('active');
                     }
                 };
 
-                if (level === 1) {
-                    tocList.appendChild(li);
-                    currentH1List = childrenUl; 
-                    currentH2List = null;       
-                } 
-                else if (level === 2) {
-                    if (currentH1List) {
-                        currentH1List.parentElement.classList.remove('no-children'); 
-                        currentH1List.appendChild(li);
-                    } else {
-                        tocList.appendChild(li);
-                    }
+                if (level === 1) { tocList.appendChild(li); currentH1List = childrenUl; currentH2List = null; } 
+                else if (level === 2) { 
+                    if (currentH1List) { currentH1List.parentElement.classList.remove('no-children'); currentH1List.appendChild(li); } 
+                    else { tocList.appendChild(li); }
                     currentH2List = childrenUl; 
                 }
                 else if (level === 3) {
-                    if (currentH2List) {
-                        currentH2List.parentElement.classList.remove('no-children');
-                        currentH2List.appendChild(li);
-                    } else if (currentH1List) {
-                        currentH1List.parentElement.classList.remove('no-children');
-                        currentH1List.appendChild(li);
-                    } else {
-                        tocList.appendChild(li);
-                    }
+                    if (currentH2List) { currentH2List.parentElement.classList.remove('no-children'); currentH2List.appendChild(li); }
+                    else if (currentH1List) { currentH1List.parentElement.classList.remove('no-children'); currentH1List.appendChild(li); }
+                    else { tocList.appendChild(li); }
                 }
                 li.classList.add('no-children');
             });
@@ -581,8 +463,7 @@
             document.querySelectorAll('pre').forEach(pre => {
                 if(pre.querySelector('.copy-button')) return;
                 const btn = document.createElement('button');
-                btn.className = 'copy-button';
-                btn.innerHTML = '<i class="fas fa-copy"></i>';
+                btn.className = 'copy-button'; btn.innerHTML = '<i class="fas fa-copy"></i>';
                 btn.onclick = () => {
                     navigator.clipboard.writeText(pre.querySelector('code').innerText);
                     btn.innerHTML = '<i class="fas fa-check"></i>';
@@ -592,43 +473,51 @@
             });
         }
 
+        function setupScrollTop() {
+            const scrollTopBtn = document.getElementById('scrollTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) scrollTopBtn.classList.add('visible');
+                else scrollTopBtn.classList.remove('visible');
+            });
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
         function setupEventListeners() {
+            // טיפול בכפתורי Back/Forward בדפדפן
+            window.addEventListener('popstate', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const pageParam = urlParams.get('page');
+                if (pageParam && pagesData[pageParam]) {
+                    loadPage(pageParam);
+                }
+            });
+
             document.getElementById('searchInput').addEventListener('input', (e) => {
                 const val = e.target.value.toLowerCase();
                 const allLis = document.querySelectorAll('.toc-list li');
                 const noResults = document.getElementById('noResults');
-                
                 if (!val) {
-                    allLis.forEach(li => {
-                        li.style.display = 'block';
-                        li.classList.remove('open');
-                    });
-                    noResults.style.display = 'none';
-                    return;
+                    allLis.forEach(li => { li.style.display = 'block'; li.classList.remove('open'); });
+                    noResults.style.display = 'none'; return;
                 }
-
                 let anyMatch = false;
                 allLis.forEach(li => li.style.display = 'none');
-                
                 allLis.forEach(li => {
                     const text = li.querySelector('.toc-link-text').textContent.toLowerCase();
                     if(text.includes(val)) {
                         li.style.display = 'block'; 
                         let curr = li;
                         while(curr && curr.id !== 'tocList') {
-                            if (curr.tagName === 'LI') {
-                                curr.style.display = 'block';
-                                curr.classList.add('open'); 
-                            }
+                            if (curr.tagName === 'LI') { curr.style.display = 'block'; curr.classList.add('open'); }
                             curr = curr.parentElement;
                         }
                         anyMatch = true;
                     }
                 });
-
                 noResults.style.display = anyMatch ? 'none' : 'block';
             });
-
             const sidebar = document.getElementById('sidebar');
             const btn = document.getElementById('mobileToggle');
             btn.onclick = () => {
