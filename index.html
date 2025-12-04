@@ -3,614 +3,642 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תיעוד מודרני</title>
-	<link rel="icon" type="image/png" href="icon.png">
+    <title>מערכת תיעוד מתקדמת</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <!-- ספריות חיצוניות -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* === הגדרות משתנים וצבעים (Theming) === */
+        :root {
+            /* צבעים קבועים */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            
+            /* משתנים משתנים (Light Mode Defaults) */
+            --bg-body: #f0f2f5;
+            --bg-grad-start: #f0f2f5;
+            --bg-grad-end: #eef2ff;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --bg-input: #f8fafc;
+            
+            --text-main: #1e293b;
+            --text-medium: #475569;
+            --text-light: #94a3b8;
+            
+            --border: #e2e8f0;
+            --shadow-color: rgba(0,0,0,0.05);
+            
+            --code-bg: #1e293b;
+            --code-text: #e2e8f0;
+            
+            /* כפתור מה חדש (בהיר) */
+            --btn-update-bg: #fffbeb;
+            --btn-update-border: #fbbf24;
+            --btn-update-text: #b45309;
+            --btn-update-hover: #fef3c7;
         }
+
+        /* === מצב כהה (Dark Mode) === */
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-grad-start: #0f172a;
+            --bg-grad-end: #1e1b4b;
+            --bg-sidebar: #1e293b;
+            --bg-card: #1e293b;
+            --bg-input: #334155;
+            
+            --text-main: #f8fafc;
+            --text-medium: #cbd5e1;
+            --text-light: #94a3b8;
+            
+            --border: #334155;
+            --shadow-color: rgba(0,0,0,0.3);
+
+            /* כפתור מה חדש (כהה) - שלא יסנוור */
+            --btn-update-bg: #451a03;
+            --btn-update-border: #92400e;
+            --btn-update-text: #fcd34d;
+            --btn-update-hover: #78350f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .main-container { display: flex; min-height: 100vh; }
+
+        /* === סרגל צד (Sidebar) === */
+        .sidebar {
+            width: 340px;
+            background: var(--bg-sidebar);
+            box-shadow: 0 0 20px var(--shadow-color);
+            position: fixed;
+            right: 0; top: 0; bottom: 0;
+            display: flex; flex-direction: column;
+            z-index: 1000;
+            border-left: 1px solid var(--border);
+            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        .sidebar-fixed-top {
+            flex-shrink: 0;
+            background: var(--bg-sidebar);
+            z-index: 20;
+            padding-bottom: 10px;
+            transition: background 0.3s ease;
+        }
+
+        /* כפתור החלפת ערכת נושא */
+        .theme-toggle-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 30;
+        }
+
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-medium);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 25px;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
+        .theme-toggle:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: rotate(15deg);
+        }
+
+        .sidebar-header { padding: 35px 25px 20px; text-align: center; position: relative; }
+
         .logo-container {
-            flex-shrink: 0;
+            position: relative;
+            width: 90px; height: 90px;
+            margin: 0 auto 15px;
+        }
+
+        /* === עיצוב הלוגו החדש (המתוקן) === */
+        .logo-container {
+            position: relative;
+            width: 90px; height: 90px;
+            margin: 0 auto 15px;
+            background: var(--bg-input); 
+            border-radius: 50%;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
+            width: 100%; height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #667eea;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-            transition: transform 0.3s ease;
+            padding: 3px; /* מרווח פנימי */
+            background: var(--bg-sidebar);
+            
+            /* התיקון: קו הפרדה דק + מרווח + מסגרת צבעונית */
+            box-shadow: 
+                0 0 0 1px var(--border),      /* קו הפרדה כדי שהלבן לא יבלע */
+                0 0 0 4px var(--bg-sidebar),  /* מרווח */
+                0 0 0 7px var(--primary),     /* מסגרת צבעונית */
+                0 10px 25px rgba(99, 102, 241, 0.4); /* צללית */
+                
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
+        .logo-container:hover .logo { 
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 
+                0 0 0 1px var(--border),
+                0 0 0 4px var(--bg-sidebar),
+                0 0 0 8px var(--secondary), /* שינוי צבע בריחוף */
+                0 15px 35px rgba(236, 72, 153, 0.5);
         }
 
-        .header-content {
-            flex: 1;
+        .logo-text h1 {
+            font-size: 1.5em; font-weight: 800; margin-bottom: 2px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-text .subtitle { font-size: 0.85em; color: var(--text-medium); }
+
+        /* חיפוש */
+        .search-container { padding: 0 25px; margin-bottom: 10px; }
+        .search-box { position: relative; }
+        .search-input {
+            width: 100%; padding: 10px 40px 10px 15px;
+            border: 2px solid var(--border); border-radius: 12px;
+            background: var(--bg-input); 
+            color: var(--text-main);
+            transition: all 0.3s;
+        }
+        .search-input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        .search-icon {
+            position: absolute; left: 15px; top: 50%;
+            transform: translateY(-50%); color: var(--text-light);
         }
 
-        .update-date {
-            color: #667eea;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .sidebar-scroll-area {
+            flex: 1; overflow-y: auto; padding: 10px 25px 30px;
+            scrollbar-width: thin;
+        }
+        .sidebar-scroll-area::-webkit-scrollbar { width: 6px; }
+        .sidebar-scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+        /* === תפריט ניווט דפים === */
+        .page-navigation {
+            display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap;
         }
 
-        .update-date::before {
-            content: "📅";
+        .nav-btn {
+            flex: 1; min-width: 75px;
+            background: var(--bg-card); 
+            border: 1px solid var(--border);
+            padding: 8px 5px; border-radius: 10px;
+            font-size: 13px; font-weight: 600; color: var(--text-medium);
+            cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 5px;
         }
 
-        h1 {
-            color: #2d3748;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .nav-btn:hover {
+            border-color: var(--primary); color: var(--primary);
         }
 
-        .content-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-            align-items: start;
+        .nav-btn.active {
+            background: var(--primary); color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* התאמת צבעים בתוך כפתור פעיל במצב כהה */
+        .nav-btn.active i, .nav-btn.active { color: white !important; }
+
+        /* === כפתור "מה חדש" (מותאם למשתנים) === */
+        #btn-updates {
+            background: var(--btn-update-bg);
+            border-color: var(--btn-update-border);
+            color: var(--btn-update-text);
+        }
+        #btn-updates i { color: var(--btn-update-text); margin-bottom: 3px; font-size: 1.2em; }
+        
+        #btn-updates:hover {
+            background: var(--btn-update-hover);
         }
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
+        #btn-updates.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white; border-color: #d97706;
+        }
+        #btn-updates.active i { color: white; }
+
+
+        /* === תוכן עניינים === */
+        .section-badge {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-light); font-weight: 700;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-badge::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        .toc-list { list-style: none; padding: 0; margin: 0; }
+        .toc-list ul { list-style: none; padding: 0; margin-right: 18px; display: none; border-right: 1px solid var(--border); }
+        .toc-list li.open > ul { display: block; animation: slideDown 0.3s ease; }
+        .toc-list li.open > .toc-row .toc-arrow { transform: rotate(-90deg); }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .toc-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 10px; border-radius: 6px;
+            cursor: pointer; transition: all 0.2s;
+            color: var(--text-medium);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        .toc-row:hover { background: rgba(99, 102, 241, 0.05); color: var(--primary); }
+        .toc-row.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary); font-weight: 600;
         }
 
-        .whats-new {
-            position: relative;
-            overflow: hidden;
+        .toc-link-text { flex: 1; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .toc-arrow { font-size: 10px; color: var(--text-light); width: 20px; display: flex; justify-content: center; transition: transform 0.3s ease; margin-left: 5px; }
+        .no-children .toc-arrow { visibility: hidden; }
+
+        /* === תוכן ראשי === */
+        .main-content {
+            flex: 1; margin-right: 340px;
+            padding: 40px; width: calc(100% - 340px);
         }
 
-        .toc-section {
-            position: relative;
-            overflow: hidden;
+        .content-card {
+            background: var(--bg-card); border-radius: 20px;
+            padding: 60px; box-shadow: 0 5px 20px var(--shadow-color);
+            max-width: 950px; margin: 0 auto; min-height: 85vh;
+            animation: fadeIn 0.4s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .toc-section::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #f093fb, #f5576c);
+        /* Markdown Styling */
+        .preview { color: var(--text-main); line-height: 1.8; }
+        .preview h1 { font-size: 2.4em; margin-bottom: 0.6em; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        .preview h2 { font-size: 1.8em; margin: 1.5em 0 0.8em; color: var(--text-main); font-weight: 700; }
+        .preview h3 { font-size: 1.4em; margin: 1.2em 0 0.6em; color: var(--primary); }
+        .preview p { margin-bottom: 1.2em; font-size: 1.05em; color: var(--text-medium); }
+        .preview ul, .preview ol { margin: 1em 0; padding-right: 2em; color: var(--text-medium); }
+        .preview li { margin-bottom: 0.5em; }
+        .preview strong { color: var(--text-main); }
+        
+        .preview blockquote { 
+            border-right: 4px solid var(--secondary); 
+            background: rgba(236, 72, 153, 0.05); 
+            color: var(--text-medium);
+            padding: 10px 20px; margin: 20px 0; border-radius: 4px; 
         }
-
-        .whats-new::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .badge.toc-badge {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .toc-item {
-            margin-bottom: 4px;
-        }
-
-        .toc-h1-item {
-            margin-bottom: 8px;
-        }
-
-        .toc-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 15px;
-            color: #4a5568;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            border-right: 3px solid transparent;
-            cursor: pointer;
-        }
-
-        .toc-link:hover {
-            background: #fef5f7;
-            color: #f5576c;
-            border-right-color: #f5576c;
-            transform: translateX(-5px);
-        }
-
-        .toc-link.active {
-            background: #fef5f7;
-            color: #f5576c;
-            border-right-color: #f5576c;
-            font-weight: 600;
-        }
-
-        .toc-link.level-1 {
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .toc-link.level-2 {
-            padding-right: 25px;
-        }
-
-        .toc-link.level-3 {
-            padding-right: 35px;
-            font-size: 13px;
-        }
-
-        .toc-toggle {
-            font-size: 12px;
-            transition: transform 0.3s ease;
-            margin-left: 8px;
-        }
-
-        .toc-toggle.expanded {
-            transform: rotate(90deg);
-        }
-
-        .toc-children {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .toc-children.expanded {
-            max-height: 500px;
-        }
-
-        .content-area {
-            margin-top: 20px;
-        }
-
-        .preview {
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 12px;
-            min-height: 150px;
-            line-height: 1.8;
-        }
-
-        .preview h1, .preview h2, .preview h3 {
-            color: #2d3748;
-            margin-top: 1em;
-            margin-bottom: 0.5em;
-        }
-
-        .preview h1 { font-size: 2em; }
-        .preview h2 { font-size: 1.5em; }
-        .preview h3 { font-size: 1.2em; }
-
-        .preview p {
-            margin-bottom: 1em;
-            color: #4a5568;
-        }
-
-        .preview ul, .preview ol {
-            margin: 1em 0;
-            padding-right: 2em;
-        }
-
-        .preview li {
-            margin-bottom: 0.5em;
-            color: #4a5568;
-        }
-
-        .preview code {
-            background: #edf2f7;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-
+        
         .preview pre {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1em 0;
-            position: relative;
+            background: var(--code-bg); padding: 20px; border-radius: 12px;
+            overflow-x: auto; margin: 1.5em 0; position: relative; direction: ltr;
+            border: 1px solid var(--border);
         }
-
-        .preview pre code {
-            background: none;
-            color: inherit;
-            padding: 0;
+        .preview code { font-family: 'Consolas', monospace; color: var(--code-text); }
+        .preview p code { 
+            background: var(--bg-input); 
+            color: #ef4444; 
+            padding: 2px 6px; border-radius: 4px; 
+            direction: ltr; display: inline-block; 
+            font-family: 'Consolas', monospace;
+            border: 1px solid var(--border);
         }
 
         .copy-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(255,255,255,0.1); color: white;
+            border: none; padding: 5px 10px; border-radius: 6px;
+            cursor: pointer; font-size: 12px; transition: 0.2s;
+        }
+        .copy-button:hover { background: rgba(255,255,255,0.2); }
+
+        .mobile-toggle {
+            display: none; position: fixed; bottom: 25px; left: 25px;
+            width: 55px; height: 55px; border-radius: 50%;
+            background: var(--primary); color: white;
+            border: none; font-size: 22px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            z-index: 1001; cursor: pointer;
         }
 
-        .copy-button:hover {
-            opacity: 1;
-        }
-
-        .copy-button.copied {
-            background: #48bb78;
-        }
-
-        .preview blockquote {
-            border-right: 4px solid #667eea;
-            padding-right: 15px;
-            margin: 1em 0;
-            color: #4a5568;
-            font-style: italic;
-        }
-
-        .section-title {
-            font-size: 1.3em;
-            color: #2d3748;
-            margin-bottom: 15px;
-            font-weight: 600;
-            display: none;
-        }
-
-        .docs-editor {
-            display: none;
-        }
-
-        @media (max-width: 968px) {
-            .content-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                display: contents;
-            }
-
-            .whats-new {
-                order: 1;
-            }
-
-            .toc-section {
-                order: 2;
-            }
-
-            .card:not(.whats-new):not(.toc-section) {
-                order: 3;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .logo {
-                width: 70px;
-                height: 70px;
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-right: 0; width: 100%; padding: 20px; }
+            .mobile-toggle { display: block; }
+            .content-card { padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo-container">
-                <img src="https://via.placeholder.com/80/667eea/ffffff?text=LOGO" alt="Logo" class="logo" id="logoImage">
-            </div>
-            <div class="header-content">
-                <div class="update-date" id="updateDate">עדכון אחרון: 01/12/2025</div>
-                <h1>📚 תיעוד טכני מודרני</h1>
-            </div>
-        </div>
 
-        <div class="content-wrapper">
-            <div class="sidebar">
-                <!-- What's New Section -->
-                <div class="card whats-new">
-                    <span class="badge pulse">⭐ מה חדש</span>
-                    <div class="content-area">
-                        <div class="preview" id="whatsNewPreview"></div>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-fixed-top">
+                <!-- כפתור מצב כהה -->
+                <div class="theme-toggle-container">
+                    <button class="theme-toggle" id="themeToggle" title="החלף ערכת נושא">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="icon.png" alt="Logo" class="logo" id="logoImage">
+                    </div>
+                    <div class="logo-text">
+                        <h1>דוקס פרו</h1>
+                        <div class="subtitle">מערכת תיעוד ארגונית</div>
                     </div>
                 </div>
 
-                <!-- Table of Contents -->
-                <div class="card toc-section">
-                    <span class="badge toc-badge">📑 תוכן עניינים</span>
-                    <div class="content-area">
-                        <ul class="toc-list" id="tocList"></ul>
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="חפש בתיעוד...">
+                        <i class="fas fa-search search-icon"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Documentation Section -->
-            <div class="card">
-                <span class="badge">📖 תיעוד מלא</span>
-                <div class="content-area">
-                    <div class="preview" id="docsPreview"></div>
+            <div class="sidebar-scroll-area">
+                
+                <div class="page-navigation" id="pageNav">
+                    <!-- Dynamic -->
+                </div>
+
+                <div class="section-badge">תוכן עניינים</div>
+                <nav>
+                    <ul class="toc-list" id="tocList"></ul>
+                </nav>
+                <div id="noResults" style="display:none; text-align:center; padding:20px; color:var(--text-light); font-size:13px;">
+                    לא נמצאו תוצאות לחיפוש
                 </div>
             </div>
-        </div>
+        </aside>
+
+        <main class="main-content">
+            <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+            <div class="content-card">
+                <div class="preview" id="docsPreview"></div>
+            </div>
+        </main>
     </div>
-
+    <!-- טעינת התוכן מבחוץ -->
+    <script src="content.js"></script> 
     <script>
-        // ===== הגדרות - ערוך כאן =====
+        // ==========================================
+        //  Theme Logic (Dark Mode)
+        // ==========================================
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
         
-        // לוגו (שים את הקישור ללוגו שלך כאן)
-        const logoUrl = "icon.png";
+        // בדיקה אם יש העדפה שמורה או העדפת מערכת
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // Update date automatically
-        //const updateDateEl = document.getElementById('updateDate');
-        //const today = new Date();
-        //const dateStr = today.toLocaleDateString('he-IL');
-        //updateDateEl.textContent = `עדכון אחרון: ${dateStr}`;
+        if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.className = 'fas fa-sun';
+        }
 
-        // Set logo
-        document.getElementById('logoImage').src = logoUrl;
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            }
+        });
 
-        // Content to render (edit here in Markdown format)
-        const whatsNewContent = `## גרסה 2.0 🚀
+        // ==========================================
+        //  Logic
+        // ==========================================
 
-- **תכונה חדשה**: תמיכה מלאה ב-Markdown
-- **עיצוב מחודש**: ממשק משתמש מודרני ורספונסיבי
-- **שיפורי ביצועים**: טעינה מהירה יותר פי 2
+        let currentPage = 'guide'; 
 
----
+        function init() {
+            renderPageNavigation();
+            loadPage(currentPage);
+            setupEventListeners();
+        }
 
-## שיפורים נוספים
-- תמיכה ב-RTL מושלמת
-- אנימציות חלקות
-- מצב כהה (בקרוב)`;
+        function renderPageNavigation() {
+            const nav = document.getElementById('pageNav');
+            nav.innerHTML = '';
 
-        const docsContent = `# ברוכים הבאים למערכת
+            Object.keys(pagesData).forEach(key => {
+                const page = pagesData[key];
+                const btn = document.createElement('div');
+                btn.className = `nav-btn ${key === currentPage ? 'active' : ''}`;
+                
+                if (key === 'updates') {
+                    btn.id = 'btn-updates';
+                }
 
-## מבוא
-מערכת זו מאפשרת לכם לנהל תיעוד טכני בצורה נוחה ויעילה באמצעות **Markdown**.
+                btn.innerHTML = `<i class="${page.icon}"></i> ${page.title}`;
+                btn.onclick = () => loadPage(key);
+                nav.appendChild(btn);
+            });
+        }
 
-## תכונות עיקריות
-
-### עריכה קלה
-- כתיבה ב-Markdown פשוט
-- תצוגה מקדימה בזמן אמת
-- עיצוב מודרני ומושך
-
-### רספונסיביות
-המערכת מותאמת לכל גודל מסך:
-- מחשבים נייחים 💻
-- טאבלטים 📱
-- סמארטפונים 📲
-
-## דוגמאות שימוש
-
-### קוד לדוגמה
-\`\`\`javascript
-function hello() {
-    console.log("Hello World!");
-}
-\`\`\`
-
-### ציטוט
-> "הדרך הטובה ביותר לחזות את העתיד היא ליצור אותו" - אברהם לינקולן
-
-## סיכום
-התחילו לכתוב את התיעוד שלכם עכשיו! ✨`;
-
-        // Render markdown
-        document.getElementById('whatsNewPreview').innerHTML = marked.parse(whatsNewContent);
-        document.getElementById('docsPreview').innerHTML = marked.parse(docsContent);
-
-        // Generate Table of Contents with collapsible sections
-        function generateTOC() {
-            const docsPreview = document.getElementById('docsPreview');
-            const tocList = document.getElementById('tocList');
-            const headings = docsPreview.querySelectorAll('h1, h2, h3');
+        function loadPage(pageKey) {
+            currentPage = pageKey;
+            const page = pagesData[pageKey];
             
+            renderPageNavigation(); 
+
+            const preview = document.getElementById('docsPreview');
+            preview.style.opacity = '0';
+            
+            setTimeout(() => {
+                preview.innerHTML = marked.parse(page.content);
+                preview.style.opacity = '1';
+                generateNestedTOC(); 
+                addCopyButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 150);
+        }
+
+        function generateNestedTOC() {
+            const tocList = document.getElementById('tocList');
             tocList.innerHTML = '';
             
-            let currentH1 = null;
-            let currentH1Children = null;
+            const headings = Array.from(document.getElementById('docsPreview').querySelectorAll('h1, h2, h3'));
             
-            headings.forEach((heading, index) => {
-                const level = parseInt(heading.tagName.charAt(1));
-                const text = heading.textContent;
-                const id = `heading-${index}`;
+            if (headings.length === 0) {
+                tocList.innerHTML = '<li style="padding:10px; font-size:12px; opacity:0.6; color:var(--text-light)">אין כותרות בדף זה</li>';
+                return;
+            }
+
+            let currentH1List = null; 
+            let currentH2List = null; 
+
+            headings.forEach((h, index) => {
+                const level = parseInt(h.tagName.charAt(1));
+                h.id = `heading-${index}`; 
+
+                const li = document.createElement('li');
+                li.className = 'toc-item';
                 
-                // Add ID to heading for anchor
-                heading.id = id;
+                const row = document.createElement('div');
+                row.className = 'toc-row';
                 
+                const arrow = document.createElement('span');
+                arrow.className = 'toc-arrow';
+                arrow.innerHTML = '<i class="fas fa-caret-left"></i>'; 
+                
+                const text = document.createElement('span');
+                text.className = 'toc-link-text';
+                text.textContent = h.textContent;
+
+                row.appendChild(arrow);
+                row.appendChild(text);
+                li.appendChild(row);
+
+                const childrenUl = document.createElement('ul');
+                li.appendChild(childrenUl);
+
+                row.onclick = (e) => {
+                    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.querySelectorAll('.toc-row').forEach(r => r.classList.remove('active'));
+                    row.classList.add('active');
+
+                    if (!li.classList.contains('no-children')) {
+                        li.classList.toggle('open');
+                    }
+                    
+                    if(window.innerWidth <= 1024 && li.classList.contains('no-children')) {
+                        document.getElementById('sidebar').classList.remove('active');
+                    }
+                };
+
                 if (level === 1) {
-                    // Create H1 item with toggle
-                    const li = document.createElement('li');
-                    li.className = 'toc-item toc-h1-item';
-                    
-                    const link = document.createElement('a');
-                    link.className = 'toc-link level-1';
-                    
-                    const textSpan = document.createElement('span');
-                    textSpan.textContent = text;
-                    
-                    const toggle = document.createElement('span');
-                    toggle.className = 'toc-toggle';
-                    toggle.textContent = '◀';
-                    
-                    link.appendChild(textSpan);
-                    link.appendChild(toggle);
-                    
-                    // Create children container
-                    const childrenUl = document.createElement('ul');
-                    childrenUl.className = 'toc-children';
-                    
-                    // Toggle children on click
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const isExpanded = childrenUl.classList.contains('expanded');
-                        
-                        if (isExpanded) {
-                            childrenUl.classList.remove('expanded');
-                            toggle.classList.remove('expanded');
-                        } else {
-                            childrenUl.classList.add('expanded');
-                            toggle.classList.add('expanded');
-                            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                        
-                        // Update active state
-                        document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
-                        link.classList.add('active');
-                    });
-                    
-                    li.appendChild(link);
-                    li.appendChild(childrenUl);
                     tocList.appendChild(li);
-                    
-                    currentH1 = li;
-                    currentH1Children = childrenUl;
-                    
-                } else if (level === 2 || level === 3) {
-                    // Create H2/H3 items as children of H1
-                    if (currentH1Children) {
-                        const li = document.createElement('li');
-                        li.className = 'toc-item';
-                        
-                        const link = document.createElement('a');
-                        link.className = `toc-link level-${level}`;
-                        link.textContent = text;
-                        
-                        link.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            
-                            // Update active state
-                            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
-                            link.classList.add('active');
-                        });
-                        
-                        li.appendChild(link);
-                        currentH1Children.appendChild(li);
+                    currentH1List = childrenUl; 
+                    currentH2List = null;       
+                } 
+                else if (level === 2) {
+                    if (currentH1List) {
+                        currentH1List.parentElement.classList.remove('no-children'); 
+                        currentH1List.appendChild(li);
+                    } else {
+                        tocList.appendChild(li);
+                    }
+                    currentH2List = childrenUl; 
+                }
+                else if (level === 3) {
+                    if (currentH2List) {
+                        currentH2List.parentElement.classList.remove('no-children');
+                        currentH2List.appendChild(li);
+                    } else if (currentH1List) {
+                        currentH1List.parentElement.classList.remove('no-children');
+                        currentH1List.appendChild(li);
+                    } else {
+                        tocList.appendChild(li);
                     }
                 }
+                li.classList.add('no-children');
             });
         }
 
-        generateTOC();
-
-        // Add copy buttons to code blocks
         function addCopyButtons() {
-            const codeBlocks = document.querySelectorAll('pre');
-            codeBlocks.forEach((block) => {
-                const button = document.createElement('button');
-                button.className = 'copy-button';
-                button.textContent = 'העתק';
-                
-                button.addEventListener('click', () => {
-                    const code = block.querySelector('code').textContent;
-                    navigator.clipboard.writeText(code).then(() => {
-                        button.textContent = '✓ הועתק';
-                        button.classList.add('copied');
-                        setTimeout(() => {
-                            button.textContent = 'העתק';
-                            button.classList.remove('copied');
-                        }, 2000);
-                    });
-                });
-                
-                block.style.position = 'relative';
-                block.appendChild(button);
+            document.querySelectorAll('pre').forEach(pre => {
+                if(pre.querySelector('.copy-button')) return;
+                const btn = document.createElement('button');
+                btn.className = 'copy-button';
+                btn.innerHTML = '<i class="fas fa-copy"></i>';
+                btn.onclick = () => {
+                    navigator.clipboard.writeText(pre.querySelector('code').innerText);
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);
+                };
+                pre.appendChild(btn);
             });
         }
 
-        addCopyButtons();
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                const allLis = document.querySelectorAll('.toc-list li');
+                const noResults = document.getElementById('noResults');
+                
+                if (!val) {
+                    allLis.forEach(li => {
+                        li.style.display = 'block';
+                        li.classList.remove('open');
+                    });
+                    noResults.style.display = 'none';
+                    return;
+                }
+
+                let anyMatch = false;
+                allLis.forEach(li => li.style.display = 'none');
+                
+                allLis.forEach(li => {
+                    const text = li.querySelector('.toc-link-text').textContent.toLowerCase();
+                    if(text.includes(val)) {
+                        li.style.display = 'block'; 
+                        let curr = li;
+                        while(curr && curr.id !== 'tocList') {
+                            if (curr.tagName === 'LI') {
+                                curr.style.display = 'block';
+                                curr.classList.add('open'); 
+                            }
+                            curr = curr.parentElement;
+                        }
+                        anyMatch = true;
+                    }
+                });
+
+                noResults.style.display = anyMatch ? 'none' : 'block';
+            });
+
+            const sidebar = document.getElementById('sidebar');
+            const btn = document.getElementById('mobileToggle');
+            btn.onclick = () => {
+                sidebar.classList.toggle('active');
+                const icon = btn.querySelector('i');
+                icon.className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+            };
+        }
+
+        init();
     </script>
 </body>
 </html>
