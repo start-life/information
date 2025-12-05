@@ -39,6 +39,11 @@
             --btn-update-border: #fbbf24;
             --btn-update-text: #b45309;
             --btn-update-hover: #fef3c7;
+
+            /* Glass Modal Vars */
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
         [data-theme="dark"] {
@@ -60,6 +65,9 @@
             --btn-update-border: #92400e;
             --btn-update-text: #fcd34d;
             --btn-update-hover: #78350f;
+
+            --glass-bg: rgba(0, 0, 0, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -185,7 +193,7 @@
         .content-card { background: var(--bg-card); border-radius: 20px; padding: 60px; box-shadow: 0 5px 20px var(--shadow-color); max-width: 950px; margin: 0 auto; min-height: 85vh; animation: fadeIn 0.4s ease; transition: background 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Markdown Styling + Anchors */
+        /* === Markdown Styling === */
         .preview { color: var(--text-main); line-height: 1.8; }
         .preview h1, .preview h2, .preview h3 { position: relative; margin-top: 1.5em; scroll-margin-top: 20px; }
         
@@ -201,9 +209,25 @@
         .preview h2 { font-size: 1.8em; margin: 1.5em 0 0.8em; color: var(--text-main); font-weight: 700; }
         .preview h3 { font-size: 1.4em; margin: 1.2em 0 0.6em; color: var(--primary); }
         .preview p { margin-bottom: 1.2em; font-size: 1.05em; color: var(--text-medium); }
+        
+        /* עיצוב תמונות */
+        .preview img {
+            max-width: 100%; height: auto; display: block; margin: 25px auto;
+            border-radius: 8px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border);
+            cursor: pointer; /* שינוי ל"יד" מצביעה */
+            transition: transform 0.2s ease;
+        }
+        .preview img:hover { transform: scale(1.01); }
+
         .preview pre { background: var(--code-bg); padding: 20px; border-radius: 12px; overflow-x: auto; margin: 1.5em 0; position: relative; direction: ltr; border: 1px solid var(--border); }
         .preview code { font-family: 'Consolas', monospace; color: var(--code-text); }
-        .preview p code { background: var(--bg-input); color: #ef4444; padding: 2px 6px; border-radius: 4px; direction: ltr; display: inline-block; font-family: 'Consolas', monospace; border: 1px solid var(--border); }
+        
+        .preview p code, .preview li code { 
+            background: var(--bg-input); color: #ef4444; 
+            padding: 2px 6px; border-radius: 4px; 
+            direction: ltr; display: inline; unicode-bidi: isolate;
+            font-family: 'Consolas', monospace; border: 1px solid var(--border);
+        }
         
         .copy-button { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: 0.2s; }
         .copy-button:hover { background: rgba(255,255,255,0.2); }
@@ -222,6 +246,46 @@
         .scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
         .scroll-top:hover { background: var(--primary-dark); transform: translateY(-5px); }
 
+        /* === עיצוב פופאפ זכוכית === */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            align-items: center; justify-content: center;
+            flex-direction: column;
+            animation: fadeInModal 0.3s ease;
+        }
+
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+
+        .image-modal-content {
+            margin: auto; display: block;
+            max-width: 90%; max-height: 80vh;
+            border-radius: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 10px;
+        }
+
+        .image-modal-caption {
+            margin: 15px auto; display: block; width: 80%; max-width: 700px;
+            text-align: center; color: white; padding: 10px 0;
+            font-size: 1.1em; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .image-modal-close {
+            position: absolute; top: 30px; right: 40px;
+            color: #f1f1f1; font-size: 40px; font-weight: bold;
+            transition: 0.3s; cursor: pointer; z-index: 2001;
+        }
+        .image-modal-close:hover { color: var(--secondary); text-decoration: none; }
+
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(100%); }
             .sidebar.active { transform: translateX(0); }
@@ -229,6 +293,64 @@
             .mobile-toggle { display: block; }
             .content-card { padding: 30px 20px; }
             .scroll-top { left: auto; right: 25px; bottom: 25px; }
+            .image-modal-content { max-width: 95%; }
+        }
+		/* === תוספות עבור סידור תמונות וכיתוב === */
+        .img-caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-medium);
+            margin-top: -15px; /* מקרב את הטקסט לתמונה */
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* === סידור תמונות חכם (הקוד המתוקן והסופי) === */
+        .image-row {
+            display: flex;
+            gap: 15px;             /* רווח בין התמונות */
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        /* 1. הגדרות לעמודות (בין אם זה figure ובין אם זה img לבד) */
+        .image-row > figure,
+        .image-row > img {
+            flex: 1;               /* מחלק את המקום שווה בשווה */
+            min-width: 0;          /* מונע גלישה */
+            margin: 0 !important;  /* מאפס שוליים של דפדפן */
+            padding: 0;
+            text-align: center;    /* ממרכז כיתוב */
+            object-fit: cover;
+        }
+
+        /* 2. הגדרות לתמונה שנמצאת בתוך figure (כדי שתמלא אותו) */
+        .image-row figure img {
+            width: 100%;           /* נמתח לרוחב ה-figure */
+            height: auto;
+            display: block;        /* מונע רווחים מיותרים */
+            margin: 0 auto 8px !important; /* רווח קטן לכיתוב */
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            object-fit: cover;
+        }
+
+        /* 3. עיצוב לכיתוב */
+        .image-row figcaption {
+            font-size: 0.9em;
+            color: var(--text-medium);
+            line-height: 1.4;
+            padding: 0 5px;
+        }
+
+        /* מובייל */
+        @media (max-width: 768px) {
+            .image-row { flex-direction: column; }
+            .image-row > figure,
+            .image-row > img { width: 100%; margin-bottom: 15px !important; }
         }
     </style>
 </head>
@@ -273,6 +395,13 @@
         </main>
     </div>
 
+    <!-- פופאפ תמונות (Modal) -->
+    <div id="imageModal" class="image-modal">
+        <span class="image-modal-close">&times;</span>
+        <img class="image-modal-content" id="imgModalSrc">
+        <div id="imgModalCaption" class="image-modal-caption"></div>
+    </div>
+
     <!-- טעינת התוכן -->
     <script src="content.js"></script>
 
@@ -310,11 +439,9 @@
                 return;
             }
 
-            // 1. קריאת פרמטרים מה-URL
             const urlParams = new URLSearchParams(window.location.search);
             const pageParam = urlParams.get('page');
 
-            // 2. קביעת הדף הנוכחי
             if (pageParam && pagesData[pageParam]) {
                 currentPage = pageParam;
             }
@@ -322,7 +449,8 @@
             renderPageNavigation();
             loadPage(currentPage);
             setupEventListeners();
-            setupScrollTop(); 
+            setupScrollTop();
+            setupModalLogic();
         }
 
         function renderPageNavigation() {
@@ -335,7 +463,6 @@
                 if (key === 'updates') btn.id = 'btn-updates';
                 btn.innerHTML = `<i class="${page.icon}"></i> ${page.title}`;
                 
-                // עדכון ה-URL בלחיצה על דף (טאב)
                 btn.onclick = () => {
                     const newUrl = `?page=${key}`;
                     window.history.pushState({page: key}, '', newUrl);
@@ -360,10 +487,43 @@
                 h.id = id;
                 const link = document.createElement('a');
                 link.className = 'anchor-link';
-                // הקישור כולל את הדף הנוכחי בפרמטרים
                 link.href = `?page=${currentPage}#${id}`;
                 link.innerHTML = '<i class="fas fa-link"></i>';
                 h.insertBefore(link, h.firstChild);
+            });
+        }
+
+        // === פונקציה לטיפול בתמונות (ללא כיתוב אוטומטי בדף) ===
+        function setupImages() {
+            const images = document.querySelectorAll('#docsPreview img');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('imgModalSrc');
+            const captionText = document.getElementById('imgModalCaption');
+
+            images.forEach(img => {
+                // רק מגדירים לחיצה לפופאפ
+                img.style.cursor = 'pointer'; // יד מצביעה
+                
+                img.onclick = () => {
+                    modal.style.display = "flex";
+                    modalImg.src = img.src;
+                    // הכיתוב בפופאפ עדיין ילקח מה-ALT, זה הסטנדרט
+                    captionText.innerHTML = img.alt;
+                };
+                img.title = "לחץ להגדלה"; 
+            });
+        }
+
+        function setupModalLogic() {
+            const modal = document.getElementById('imageModal');
+            const span = document.getElementsByClassName("image-modal-close")[0];
+
+            span.onclick = function() { modal.style.display = "none"; }
+            window.onclick = function(event) {
+                if (event.target == modal) modal.style.display = "none";
+            }
+            document.addEventListener('keydown', function(event){
+                if(event.key === "Escape") modal.style.display = "none";
             });
         }
 
@@ -371,9 +531,7 @@
             currentPage = pageKey;
             const page = pagesData[pageKey];
             
-            // סימון ויזואלי של הכפתור
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                // בדיקה פשוטה כדי לא לרנדר מחדש את הכל
                 if(btn.innerText.includes(page.title)) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
@@ -387,6 +545,7 @@
                 preview.style.opacity = '1';
                 generateNestedTOC(); 
                 addCopyButtons();
+                setupImages(); 
                 
                 if (window.location.hash) {
                     const id = window.location.hash.substring(1);
@@ -432,7 +591,6 @@
                 
                 row.onclick = (e) => {
                     h.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // עדכון URL כולל Page ו-Hash
                     const newUrl = `?page=${currentPage}#${h.id}`;
                     history.pushState(null, null, newUrl);
 
@@ -485,7 +643,6 @@
         }
 
         function setupEventListeners() {
-            // טיפול בכפתורי Back/Forward בדפדפן
             window.addEventListener('popstate', () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const pageParam = urlParams.get('page');
