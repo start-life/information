@@ -161,7 +161,7 @@ professional culinary presentation
 כאן תמצאו את כל העדכונים והשדרוגים האחרונים.
 
 ### הוספת מודל image 2
-ניתן להשתמש בו עם בפקודה \`/2\`  
+ניתן להשתמש בו עם הפקודה \`/2\`  
 תוכלו לקרוא על זה [כאן](?page=guide#מודל-תמונה-image-2)
 
 ### 🍌 הוספת מודל Nano Banana Pro של גוגל
@@ -169,3 +169,4 @@ professional culinary presentation
 `
     }
 };
+
