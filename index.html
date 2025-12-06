@@ -229,8 +229,48 @@
             font-family: 'Consolas', monospace; border: 1px solid var(--border);
         }
         
-        .copy-button { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: 0.2s; }
-        .copy-button:hover { background: rgba(255,255,255,0.2); }
+        /* 1. קופסה עוטפת חדשה - הכפתור יתייחס אליה ולא לקוד הנגלל */
+        .code-wrapper {
+            position: relative;
+            margin: 1.5em 0;
+        }
+
+        /* 2. עיצוב ה-PRE (אזור הקוד) */
+        .preview pre {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto; /* הגלילה מתרחשת כאן */
+            margin: 0; /* המרווח עבר ל-code-wrapper */
+            position: relative;
+            direction: ltr;
+            border: 1px solid var(--border);
+        }
+
+        .preview code { font-family: 'Consolas', monospace; color: var(--code-text); }
+
+        /* 3. עיצוב כפתור ההעתקה */
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px; /* תמיד יישאר בפינה הימנית של המסגרת */
+            
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+            z-index: 10; /* מבטיח שהכפתור יהיה מעל הטקסט */
+            backdrop-filter: blur(4px);
+        }
+        
+        .copy-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
 
         .mobile-toggle { display: none; position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 22px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); z-index: 1001; cursor: pointer; }
 
@@ -619,15 +659,36 @@
 
         function addCopyButtons() {
             document.querySelectorAll('pre').forEach(pre => {
-                if(pre.querySelector('.copy-button')) return;
+                // בדיקה כדי לא להוסיף פעמיים
+                if (pre.parentElement.classList.contains('code-wrapper')) return;
+
+                // 1. יצירת קופסה עוטפת (Wrapper)
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-wrapper';
+
+                // 2. הכנסת העוטף לדף לפני ה-pre
+                pre.parentNode.insertBefore(wrapper, pre);
+
+                // 3. העברת ה-pre לתוך העוטף
+                wrapper.appendChild(pre);
+
+                // 4. יצירת הכפתור
                 const btn = document.createElement('button');
-                btn.className = 'copy-button'; btn.innerHTML = '<i class="fas fa-copy"></i>';
+                btn.className = 'copy-button';
+                btn.innerHTML = '<i class="fas fa-copy"></i>';
+                
                 btn.onclick = () => {
-                    navigator.clipboard.writeText(pre.querySelector('code').innerText);
+                    // מוצאים את הקוד
+                    const code = pre.querySelector('code').innerText;
+                    navigator.clipboard.writeText(code);
+                    
+                    // שינוי אייקון לסימון הצלחה
                     btn.innerHTML = '<i class="fas fa-check"></i>';
                     setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);
                 };
-                pre.appendChild(btn);
+
+                // 5. הוספת הכפתור לעוטף (ולא לתוך ה-pre הנגלל!)
+                wrapper.appendChild(btn);
             });
         }
 
