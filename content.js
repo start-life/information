@@ -201,8 +201,12 @@ professional culinary presentation
 ניתן להשתמש בו עם הפקודה \`/2\`  
 תוכלו לקרוא על זה [כאן](?page=guide#מודל-תמונה-image-2)
 
-### 🍌 הוספת מודל Nano Banana Pro של גוגל
-**בקרוב**
+### 🍌 הוספת מודל Nano Banana Pro של גוגל   
+ניתן להשתמש בו עם הפקודה \`/N\`  
+תוכלו לקרוא על זה [כאן](?page=guide#-מודל-nano-banana-pro)
+
+### בחירת  יחס רוחב - גובה 📐   
+תוכלו לקרוא על זה [כאן](?page=guide#יחס-רוחב-גובה-)
 `
     }
 };
