@@ -15,7 +15,8 @@ const pagesData = {
 Create a picture for me of a cat climbing a tree.
 \`\`\`
 ✍️ **כתבו באנגלית בלבד** - במודל זה הפרומפט חייב להיות האנגלית בלבד   
-🌐 טיפ: תוכלו לתרגם את הפרומפטים שלכם עם [Google Translate](https://translate.google.co.il/?hl=iw&sl=iw&tl=en&op=translate)
+🌐 טיפ: תוכלו לתרגם את הפרומפטים שלכם עם [Google Translate](https://translate.google.co.il/?hl=iw&sl=iw&tl=en&op=translate)   
+💰 עלות מודל: ₪0.10
 
 # מודל תמונה image 2
 גרסה מתקדמת ובעלת איכות גבוהה יותר. מצטיינת בפרטים עדינים, תאורה, טקסט ודמויות. מתאימה לפריטים מורכבים ולתוצאות מקצועיות.
@@ -26,7 +27,8 @@ Create a picture for me of a cat climbing a tree.
 /2 Create a picture for me of a cat climbing a tree.
 \`\`\`
 ✍️ **כתבו באנגלית בלבד** - במודל זה הפרומפט חייב להיות האנגלית בלבד   
-🌐 טיפ: תוכלו לתרגם את הפרומפטים שלכם עם [Google Translate](https://translate.google.co.il/?hl=iw&sl=iw&tl=en&op=translate)
+🌐 טיפ: תוכלו לתרגם את הפרומפטים שלכם עם [Google Translate](https://translate.google.co.il/?hl=iw&sl=iw&tl=en&op=translate)   
+💰 עלות מודל: ₪0.20
 
 # 🍌 מודל Nano Banana Pro   
 זהו מודל בינה מלאכותית שמייצר תמונות באיכות פוטו-ריאליסטית של עד 4K. הוא מצטיין ביצירת טקסט מדויק בתוך תמונות (גם בעברית), עריכת תאורה וזוויות צילום מתקדמות ושמירה על עקביות של דמויות לאורך סדרת תמונות.   
@@ -51,7 +53,7 @@ Create a picture for me of a cat climbing a tree.
 \`\`\`bash
 /N -- 4k צור לי תמונה של חתול שותה כוס יין וצופה על מגדל איפל
 \`\`\`
-
+💰 עלות מודל: תלויה בבחירת איכות: 1K ₪1.20 ,  2K ₪1.70 ,  4K ₪2.20
 
 # מצב AI 🎯
 מצב אינטראקטיבי שמאפשר לשוחח עם המודל לפני ואחרי יצירת התמונה. טוב כשצריך תוצאה מדויקת או כמה תיקונים עד שמגיעים למה שרוצים. במצב זה התמונות יוצאות טובות יותר עקב שימוש בפרומפטים מפורטים ומדויקים יותר המותאמים למודל, במצב זה ישנם כמה פונקציות שימושיות:  
@@ -75,7 +77,9 @@ Create a picture for me of a cat climbing a tree.
 /edit Put sunglasses on the man in the picture.
 \`\`\`
 ✍️ **כתבו באנגלית בלבד** - במודל זה הפרומפט חייב להיות האנגלית בלבד   
-🌐 טיפ: תוכלו לתרגם את הפרומפטים שלכם עם [Google Translate](https://translate.google.co.il/?hl=iw&sl=iw&tl=en&op=translate)
+🌐 טיפ: תוכלו לתרגם את הפרומפטים שלכם עם [Google Translate](https://translate.google.co.il/?hl=iw&sl=iw&tl=en&op=translate)   
+💰 עלות מודל: ₪0.20
+
 # יחס רוחב - גובה 📐
 כברירת מחדל יצירת תמונות תתבצע ביחס 16:9 אבל תוכלו לבחור יחס אחר עם הוספת הארגומנט \`--\` לפני הפרומפט   
 לדוגמה
