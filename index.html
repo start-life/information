@@ -141,8 +141,13 @@
         .preview h2 { font-size: 1.8em; margin: 1.8em 0 0.8em; color: var(--text-main); font-weight: 700; }
         .preview h3 { font-size: 1.4em; margin: 1.5em 0 0.6em; color: var(--primary); font-weight: 600; }
         .preview p { margin-bottom: 1.4em; font-size: 1.1em; color: var(--text-medium); }
+        
+        /* עיצוב תמונות */
         .preview img { max-width: 100%; height: auto; display: block; margin: 25px auto; border-radius: 8px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border); cursor: pointer; transition: transform 0.2s ease; }
         .preview img:hover { transform: scale(1.01); }
+        /* ביטול אפקט גדילה לתמונות רגילות */
+        .preview img.no-zoom-effect { cursor: default; box-shadow: 0 2px 10px var(--shadow-color); }
+        .preview img.no-zoom-effect:hover { transform: none; }
 
         pre[class*="language-"] { border-radius: 12px; margin: 0; border: 1px solid var(--border); direction: ltr; font-family: 'Consolas', monospace; }
         .preview p code, .preview li code { background: var(--bg-input); color: var(--secondary); padding: 3px 6px; border-radius: 4px; direction: ltr; display: inline-block; unicode-bidi: isolate; font-family: 'Consolas', monospace; border: 1px solid var(--border); font-size: 0.9em; }
@@ -180,14 +185,11 @@
         .cmd-result-excerpt:hover { background: rgba(99, 102, 241, 0.08); border-right-color: var(--primary); }
         
         .cmd-result-excerpt.heading-match { font-weight: 600; border-right-color: var(--primary); background: rgba(99, 102, 241, 0.05); }
-        .cmd-result-excerpt.heading-match i { color: var(--primary); font-size: 10px; margin-left: 6px; }
-        
-        [data-theme="dark"] .cmd-result-excerpt { background: rgba(255,255,255,0.02); }
+        .cmd-result-excerpt.heading-match i { color: var(--primary); font-size: 10px; margin-left: 6px; }[data-theme="dark"] .cmd-result-excerpt { background: rgba(255,255,255,0.02); }
         [data-theme="dark"] .cmd-result-excerpt:hover { background: rgba(99, 102, 241, 0.15); }
         [data-theme="dark"] .cmd-result-excerpt.heading-match { background: rgba(99, 102, 241, 0.15); }
         
-        mark.highlight { background-color: rgba(99, 102, 241, 0.2); color: var(--primary-dark); font-weight: 700; border-radius: 3px; padding: 0 2px; }
-        [data-theme="dark"] mark.highlight { background-color: rgba(99, 102, 241, 0.4); color: #a5b4fc; }
+        mark.highlight { background-color: rgba(99, 102, 241, 0.2); color: var(--primary-dark); font-weight: 700; border-radius: 3px; padding: 0 2px; }[data-theme="dark"] mark.highlight { background-color: rgba(99, 102, 241, 0.4); color: #a5b4fc; }
         
         @keyframes pulseMark {
             0% { background-color: rgba(234, 179, 8, 0.8); box-shadow: 0 0 0 5px rgba(234, 179, 8, 0.4); }
@@ -361,6 +363,14 @@
             const captionText = document.getElementById('imgModalCaption');
 
             document.querySelectorAll('#docsPreview img').forEach(img => {
+                // זיהוי תמונה שאמורה להיות רגילה ולא קליקבילית
+                if (img.classList.contains('no-modal') || (img.alt && (img.alt.includes('[רגיל]') || img.alt.includes('[no-modal]')))) {
+                    // מחיקת התגית מהאלט כדי שלא תוצג
+                    if(img.alt) img.alt = img.alt.replace('[רגיל]', '').replace('[no-modal]', '').trim();
+                    img.classList.add('no-zoom-effect');
+                    return; 
+                }
+
                 img.style.cursor = 'pointer'; 
                 img.onclick = () => {
                     modal.style.display = "flex";
@@ -378,7 +388,6 @@
             document.addEventListener('keydown', (e) => { if(e.key === "Escape") modal.style.display = "none"; });
         }
 
-        // פונקציה משופרת לקפיצה מדוייקת למילה לפי האינדקס שלה בתוצאות (0, 1, 2...)
         function highlightAndScrollToTerm(term, targetIndex = 0) {
             if (!term) return;
             const preview = document.getElementById('docsPreview');
@@ -412,7 +421,6 @@
                 parent.removeChild(node);
             });
 
-            // אם האינדקס לא קיים, ניקח את הראשון שנמצא
             const targetMark = allMarks[targetIndex] || allMarks[0];
 
             if (targetMark) {
@@ -568,7 +576,6 @@
 
             trigger.addEventListener('click', openModal);
             
-            // סגירה עם Escape
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && isModalOpen) closeModal();
             });
@@ -594,7 +601,6 @@
                         let allMatches =[];
                         let occurrenceIndex = 0;
                         
-                        // קריאת השורות כדי לדעת איזה התאמה נמצאת בכותרת ואיזה לא, אך שמירה על אינדקס גלובלי (לפי סדר הטקסט)
                         const lines = page.content.split('\n');
                         
                         lines.forEach(line => {
@@ -618,10 +624,8 @@
                             }
                         });
 
-                        // מיון - כותרות קודם
                         allMatches.sort((a, b) => (a.isHeading === b.isHeading) ? 0 : a.isHeading ? -1 : 1);
 
-                        // בחירת עד 3 תוצאות, ללא כפילויות במראה הטקסט
                         const uniqueSnippets =[];
                         const seenExcerpts = new Set();
                         for (const m of allMatches) {
