@@ -3,51 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TWB45FSZ');</script>
-<!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TWB45FSZ');</script>
+    <!-- End Google Tag Manager -->
+    
     <title>דוקומנטציה מערכת Tool AIbit</title>
     
     <link rel="icon" type="image/png" href="icon.png">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     
     <style>
-        /* === Themes === */
         :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #ec4899;
-            
             --bg-body: #f0f2f5;
-            --bg-grad-start: #f0f2f5;
-            --bg-grad-end: #eef2ff;
+            --bg-grad-start: #eef2ff;
+            --bg-grad-end: #f8fafc;
             --bg-sidebar: #ffffff;
             --bg-card: #ffffff;
             --bg-input: #f8fafc;
-            
             --text-main: #1e293b;
             --text-medium: #475569;
             --text-light: #94a3b8;
-            
             --border: #cbd5e1;
             --shadow-color: rgba(0,0,0,0.05);
-            
-            --code-bg: #1e293b;
+            --code-bg: #1e293b; 
             --code-text: #e2e8f0;
-            
             --btn-update-bg: #fffbeb;
             --btn-update-border: #fbbf24;
             --btn-update-text: #b45309;
             --btn-update-hover: #fef3c7;
-
-            /* Glass Modal Vars */
             --glass-bg: rgba(255, 255, 255, 0.25);
             --glass-border: rgba(255, 255, 255, 0.4);
             --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -60,124 +54,60 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --bg-sidebar: #1e293b;
             --bg-card: #1e293b;
             --bg-input: #334155;
-            
             --text-main: #f8fafc;
             --text-medium: #cbd5e1;
             --text-light: #94a3b8;
-            
             --border: #475569;
             --shadow-color: rgba(0,0,0,0.3);
-
             --btn-update-bg: #451a03;
             --btn-update-border: #92400e;
             --btn-update-text: #fcd34d;
             --btn-update-hover: #78350f;
-
             --glass-bg: rgba(0, 0, 0, 0.5);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
-            font-family: 'Heebo', sans-serif;
+            font-family: 'Rubik', sans-serif;
             background: linear-gradient(135deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
-            min-height: 100vh;
-            color: var(--text-main);
-            line-height: 1.6;
+            min-height: 100vh; color: var(--text-main); line-height: 1.75; letter-spacing: 0.2px; 
             transition: background 0.3s ease, color 0.3s ease;
         }
+        *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 5px; background: transparent; z-index: 9999; pointer-events: none; }
+        .progress-bar { height: 100%; width: 0%; float: right; background: linear-gradient(to left, var(--secondary), var(--primary)); border-radius: 10px; transition: width 0.1s ease; }
 
         .main-container { display: flex; min-height: 100vh; }
-
-        /* === Sidebar === */
-        .sidebar {
-            width: 340px;
-            background: var(--bg-sidebar);
-            box-shadow: 0 0 20px var(--shadow-color);
-            position: fixed;
-            right: 0; top: 0; bottom: 0;
-            display: flex; flex-direction: column;
-            z-index: 1000;
-            border-left: 1px solid var(--border);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-
-        .sidebar-fixed-top {
-            flex-shrink: 0;
-            background: var(--bg-sidebar);
-            z-index: 20;
-            padding-bottom: 10px;
-            transition: background 0.3s ease;
-        }
-
+        .sidebar { width: 340px; background: var(--bg-sidebar); box-shadow: 0 0 20px var(--shadow-color); position: fixed; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; z-index: 1000; border-left: 1px solid var(--border); transition: transform 0.3s ease, background 0.3s ease; }
+        .sidebar-fixed-top { flex-shrink: 0; background: var(--bg-sidebar); z-index: 20; padding-bottom: 10px; transition: background 0.3s ease; }
         .theme-toggle-container { position: absolute; top: 20px; left: 20px; z-index: 30; }
-        .theme-toggle {
-            background: var(--bg-input); border: 1px solid var(--border);
-            color: var(--text-medium); width: 35px; height: 35px;
-            border-radius: 50%; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; transition: all 0.3s ease;
-        }
+        .theme-toggle { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-medium); width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
         .theme-toggle:hover { color: var(--primary); border-color: var(--primary); transform: rotate(15deg); }
 
         .sidebar-header { padding: 35px 25px 20px; text-align: center; }
-
-        .logo-container {
-            position: relative; width: 90px; height: 90px;
-            margin: 0 auto 15px; background: var(--bg-input); border-radius: 50%;
-        }
-
-        .logo {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            padding: 3px; background: var(--bg-sidebar);
-            box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--bg-sidebar), 0 0 0 7px var(--primary), 0 10px 25px rgba(99, 102, 241, 0.4);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-        }
-        .logo-container:hover .logo { 
-            transform: scale(1.08) rotate(3deg);
-            box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--bg-sidebar), 0 0 0 8px var(--secondary), 0 15px 35px rgba(236, 72, 153, 0.5);
-        }
-
-        .logo-text h1 {
-            font-size: 1.5em; font-weight: 800; margin-bottom: 2px;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .logo-container { position: relative; width: 90px; height: 90px; margin: 0 auto 15px; background: var(--bg-input); border-radius: 50%; }
+        .logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; padding: 3px; background: var(--bg-sidebar); box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--bg-sidebar), 0 0 0 7px var(--primary), 0 10px 25px rgba(99, 102, 241, 0.4); transition: transform 0.4s ease, box-shadow 0.3s ease; }
+        .logo-container:hover .logo { transform: scale(1.08) rotate(3deg); box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--bg-sidebar), 0 0 0 8px var(--secondary), 0 15px 35px rgba(236, 72, 153, 0.5); }
+        .logo-text h1 { font-size: 1.5em; font-weight: 800; margin-bottom: 2px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .logo-text .subtitle { font-size: 0.85em; color: var(--text-medium); }
 
         .search-container { padding: 0 25px; margin-bottom: 10px; }
-        .search-box { position: relative; }
-        .search-input {
-            width: 100%; padding: 10px 40px 10px 15px;
-            border: 2px solid var(--border); border-radius: 12px;
-            background: var(--bg-input); color: var(--text-main); transition: all 0.3s;
-        }
-        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+        .search-box { position: relative; cursor: pointer; }
+        .search-fake-input { width: 100%; padding: 10px 40px 10px 15px; border: 2px solid var(--border); border-radius: 12px; background: var(--bg-input); color: var(--text-medium); display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; font-size: 14px; user-select: none; }
+        .search-box:hover .search-fake-input { border-color: var(--primary); }
+        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
-        .sidebar-scroll-area {
-            flex: 1; overflow-y: auto; padding: 10px 25px 30px; scrollbar-width: thin;
-        }
+        .sidebar-scroll-area { flex: 1; overflow-y: auto; padding: 10px 25px 30px; scrollbar-width: thin; }
         .sidebar-scroll-area::-webkit-scrollbar { width: 6px; }
         .sidebar-scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
         .page-navigation { display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-        .nav-btn {
-            flex: 1; min-width: 75px; background: var(--bg-card); 
-            border: 1px solid var(--border); padding: 8px 5px; border-radius: 10px;
-            font-size: 13px; font-weight: 600; color: var(--text-medium);
-            cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 5px;
-        }
+        .nav-btn { flex: 1; min-width: 75px; background: var(--bg-card); border: 1px solid var(--border); padding: 8px 5px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--text-medium); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
         .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
         .nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3); }
         .nav-btn.active i, .nav-btn.active { color: white !important; }
-
-        #btn-updates { background: var(--btn-update-bg); border-color: var(--btn-update-border); color: var(--btn-update-text); }
-        #btn-updates i { color: var(--btn-update-text); margin-bottom: 3px; font-size: 1.2em; }
-        #btn-updates:hover { background: var(--btn-update-hover); }
-        #btn-updates.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-color: #d97706; }
-        #btn-updates.active i { color: white; }
 
         .section-badge { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .section-badge::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -186,13 +116,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .toc-list ul { list-style: none; padding: 0; margin-right: 18px; display: none; border-right: 1px solid var(--border); }
         .toc-list li.open > ul { display: block; animation: slideDown 0.3s ease; }
         .toc-list li.open > .toc-row .toc-arrow { transform: rotate(-90deg); }
-
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .toc-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; color: var(--text-medium); }
-        .toc-row:hover { background: rgba(99, 102, 241, 0.05); color: var(--primary); }
+        .toc-row { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 8px 10px 8px 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; color: var(--text-medium); }
+        .toc-row::before { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%) scaleY(0); width: 3px; height: 60%; background: var(--primary); border-radius: 4px; transition: transform 0.2s ease; }
+        .toc-row:hover { background: rgba(99, 102, 241, 0.05); color: var(--primary); padding-right: 15px; }
+        .toc-row:hover::before, .toc-row.active::before { transform: translateY(-50%) scaleY(1); }
         .toc-row.active { background: rgba(99, 102, 241, 0.1); color: var(--primary); font-weight: 600; }
-        .toc-link-text { flex: 1; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .toc-link-text { flex: 1; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .toc-arrow { font-size: 10px; color: var(--text-light); width: 20px; display: flex; justify-content: center; transition: transform 0.3s ease; margin-left: 5px; }
         .no-children .toc-arrow { visibility: hidden; }
 
@@ -200,264 +131,156 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .content-card { background: var(--bg-card); border-radius: 20px; padding: 60px; box-shadow: 0 5px 20px var(--shadow-color); max-width: 950px; margin: 0 auto; min-height: 85vh; animation: fadeIn 0.4s ease; transition: background 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === Markdown Styling === */
-        .preview { color: var(--text-main); line-height: 1.8; }
-        .preview h1, .preview h2, .preview h3 { position: relative; margin-top: 1.5em; scroll-margin-top: 20px; }
-        
-        .anchor-link {
-            position: absolute; right: -35px; top: 50%; transform: translateY(-50%);
-            color: var(--primary); opacity: 0; transition: opacity 0.2s ease;
-            text-decoration: none; font-size: 0.6em; padding: 5px;
-        }
+        .preview { color: var(--text-main); }
+        .preview h1, .preview h2, .preview h3 { position: relative; margin-top: 1.8em; scroll-margin-top: 80px; }
+        .anchor-link { position: absolute; right: -35px; top: 50%; transform: translateY(-50%); color: var(--primary); opacity: 0; transition: opacity 0.2s ease; text-decoration: none; font-size: 0.6em; padding: 5px; }
         .preview h1:hover .anchor-link, .preview h2:hover .anchor-link, .preview h3:hover .anchor-link { opacity: 1; }
-        @media (max-width: 768px) { .anchor-link { opacity: 1; color: var(--text-light); } }
+        @media (max-width: 768px) { .anchor-link { opacity: 1; color: var(--text-light); right: -25px; } }
 
-        .preview h1 { font-size: 2.4em; margin-bottom: 0.6em; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 15px; }
-        .preview h2 { font-size: 1.8em; margin: 1.5em 0 0.8em; color: var(--text-main); font-weight: 700; }
-        .preview h3 { font-size: 1.4em; margin: 1.2em 0 0.6em; color: var(--primary); }
-        .preview p { margin-bottom: 1.2em; font-size: 1.05em; color: var(--text-medium); }
-        
-        /* עיצוב תמונות */
-        .preview img {
-            max-width: 100%; height: auto; display: block; margin: 25px auto;
-            border-radius: 8px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border);
-            cursor: pointer; /* שינוי ל"יד" מצביעה */
-            transition: transform 0.2s ease;
-        }
+        .preview h1 { font-size: 2.6em; margin-bottom: 0.6em; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        .preview h2 { font-size: 1.8em; margin: 1.8em 0 0.8em; color: var(--text-main); font-weight: 700; }
+        .preview h3 { font-size: 1.4em; margin: 1.5em 0 0.6em; color: var(--primary); font-weight: 600; }
+        .preview p { margin-bottom: 1.4em; font-size: 1.1em; color: var(--text-medium); }
+        .preview img { max-width: 100%; height: auto; display: block; margin: 25px auto; border-radius: 8px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border); cursor: pointer; transition: transform 0.2s ease; }
         .preview img:hover { transform: scale(1.01); }
 
-        .preview pre { background: var(--code-bg); padding: 20px; border-radius: 12px; overflow-x: auto; margin: 1.5em 0; position: relative; direction: ltr; border: 1px solid var(--border); }
-        .preview code { font-family: 'Consolas', monospace; color: var(--code-text); }
+        pre[class*="language-"] { border-radius: 12px; margin: 0; border: 1px solid var(--border); direction: ltr; font-family: 'Consolas', monospace; }
+        .preview p code, .preview li code { background: var(--bg-input); color: var(--secondary); padding: 3px 6px; border-radius: 4px; direction: ltr; display: inline-block; unicode-bidi: isolate; font-family: 'Consolas', monospace; border: 1px solid var(--border); font-size: 0.9em; }
+        .code-wrapper { position: relative; margin: 1.5em 0; direction: ltr; }
         
-        .preview p code, .preview li code { 
-            background: var(--bg-input); color: #ef4444; 
-            padding: 2px 6px; border-radius: 4px; 
-            direction: ltr; display: inline; unicode-bidi: isolate;
-            font-family: 'Consolas', monospace; border: 1px solid var(--border);
-        }
-        
-        /* 1. קופסה עוטפת חדשה - הכפתור יתייחס אליה ולא לקוד הנגלל */
-        .code-wrapper {
-            position: relative;
-            margin: 1.5em 0;
-        }
-
-        /* 2. עיצוב ה-PRE (אזור הקוד) */
-        .preview pre {
-            background: var(--code-bg);
-            padding: 20px;
-            border-radius: 12px;
-            overflow-x: auto; /* הגלילה מתרחשת כאן */
-            margin: 0; /* המרווח עבר ל-code-wrapper */
-            position: relative;
-            direction: ltr;
-            border: 1px solid var(--border);
-        }
-
-        .preview code { font-family: 'Consolas', monospace; color: var(--code-text); }
-
-        /* 3. עיצוב כפתור ההעתקה */
-        .copy-button {
-            position: absolute;
-            top: 10px;
-            right: 10px; /* תמיד יישאר בפינה הימנית של המסגרת */
-            
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: 0.2s;
-            z-index: 10; /* מבטיח שהכפתור יהיה מעל הטקסט */
-            backdrop-filter: blur(4px);
-        }
-        
-        .copy-button:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
+        .copy-button { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; transition: all 0.2s; z-index: 10; backdrop-filter: blur(4px); }
+        .copy-button:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .copy-button.success { color: #4ade80; border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
 
         .mobile-toggle { display: none; position: fixed; bottom: 25px; left: 25px; width: 55px; height: 55px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 22px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); z-index: 1001; cursor: pointer; }
-
-        .scroll-top {
-            position: fixed; bottom: 30px; left: 30px; right: auto;
-            width: 50px; height: 50px; border-radius: 50%;
-            background: var(--primary); color: white; border: none;
-            box-shadow: 0 4px 15px var(--shadow-color); cursor: pointer;
-            z-index: 999; opacity: 0; visibility: hidden;
-            transform: translateY(20px); transition: all 0.3s ease;
-            font-size: 20px; display: flex; align-items: center; justify-content: center;
-        }
+        .scroll-top { position: fixed; bottom: 30px; left: 30px; right: auto; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: white; border: none; box-shadow: 0 4px 15px var(--shadow-color); cursor: pointer; z-index: 999; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.3s ease; font-size: 20px; display: flex; align-items: center; justify-content: center; }
         .scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
         .scroll-top:hover { background: var(--primary-dark); transform: translateY(-5px); }
 
-        /* === עיצוב פופאפ זכוכית === */
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            align-items: center; justify-content: center;
-            flex-direction: column;
-            animation: fadeInModal 0.3s ease;
-        }
+        .image-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(8px); align-items: center; justify-content: center; flex-direction: column; animation: fadeInModal 0.3s ease; }
+        .image-modal-content { margin: auto; display: block; max-width: 90%; max-height: 80vh; border-radius: 12px; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); padding: 10px; }
+        .image-modal-caption { margin: 15px auto; display: block; width: 80%; max-width: 700px; text-align: center; color: white; padding: 10px 0; font-size: 1.1em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .image-modal-close { position: absolute; top: 30px; right: 40px; color: #f1f1f1; font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer; z-index: 2001; line-height: 1; }
+        .image-modal-close:hover { color: var(--secondary); }
 
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .cmd-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: flex-start; justify-content: center; padding-top: 10vh; animation: fadeInModal 0.2s ease; }
+        .cmd-content { width: 100%; max-width: 650px; background: var(--bg-card); border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
+        .cmd-input-wrapper { position: relative; border-bottom: 1px solid var(--border); }
+        .cmd-input-wrapper i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 18px; }
+        .cmd-input { width: 100%; padding: 20px 50px 20px 20px; background: transparent; border: none; font-size: 18px; color: var(--text-main); font-family: inherit; }
+        .cmd-input:focus { outline: none; }
+        .cmd-results { max-height: 450px; overflow-y: auto; padding: 10px 0; }
+        .cmd-result-item { padding: 15px 20px; display: flex; flex-direction: column; gap: 8px; border-left: 3px solid transparent; transition: background 0.1s; }
+        .cmd-result-item:hover { background: var(--bg-input); border-left-color: var(--primary); }
+        .cmd-result-title { font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 10px; font-size: 16px; cursor: pointer; }
+        .cmd-result-title i { color: var(--text-light); font-size: 14px; }
+        
+        .cmd-snippets-container { display: flex; flex-direction: column; gap: 6px; margin-top: 5px; }
+        .cmd-result-excerpt { font-size: 13px; color: var(--text-medium); line-height: 1.5; background: rgba(0,0,0,0.02); padding: 8px 12px; border-radius: 6px; border-right: 3px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .cmd-result-excerpt:hover { background: rgba(99, 102, 241, 0.08); border-right-color: var(--primary); }
+        
+        .cmd-result-excerpt.heading-match { font-weight: 600; border-right-color: var(--primary); background: rgba(99, 102, 241, 0.05); }
+        .cmd-result-excerpt.heading-match i { color: var(--primary); font-size: 10px; margin-left: 6px; }
+        
+        [data-theme="dark"] .cmd-result-excerpt { background: rgba(255,255,255,0.02); }
+        [data-theme="dark"] .cmd-result-excerpt:hover { background: rgba(99, 102, 241, 0.15); }
+        [data-theme="dark"] .cmd-result-excerpt.heading-match { background: rgba(99, 102, 241, 0.15); }
+        
+        mark.highlight { background-color: rgba(99, 102, 241, 0.2); color: var(--primary-dark); font-weight: 700; border-radius: 3px; padding: 0 2px; }
+        [data-theme="dark"] mark.highlight { background-color: rgba(99, 102, 241, 0.4); color: #a5b4fc; }
+        
+        @keyframes pulseMark {
+            0% { background-color: rgba(234, 179, 8, 0.8); box-shadow: 0 0 0 5px rgba(234, 179, 8, 0.4); }
+            50% { background-color: rgba(234, 179, 8, 0.4); box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.1); }
+            100% { background-color: rgba(234, 179, 8, 0.2); box-shadow: 0 0 0 0px transparent; }
+        }
+        mark.highlight-jump { background-color: rgba(234, 179, 8, 0.3); color: inherit; border-radius: 4px; padding: 2px 4px; animation: pulseMark 2.5s cubic-bezier(0.4, 0, 0.2, 1); border-bottom: 2px solid #eab308; }
+        [data-theme="dark"] mark.highlight-jump { background-color: rgba(234, 179, 8, 0.4); color: #fef08a; }
 
-        .image-modal-content {
-            margin: auto; display: block;
-            max-width: 90%; max-height: 80vh;
-            border-radius: 12px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            padding: 10px;
-        }
+        .cmd-empty { padding: 30px; text-align: center; color: var(--text-light); }
 
-        .image-modal-caption {
-            margin: 15px auto; display: block; width: 80%; max-width: 700px;
-            text-align: center; color: white; padding: 10px 0;
-            font-size: 1.1em; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
+        @media (max-width: 1024px) { .sidebar { transform: translateX(100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-right: 0; width: 100%; padding: 20px; } .mobile-toggle { display: block; } .content-card { padding: 30px 20px; } .scroll-top { left: auto; right: 25px; bottom: 25px; } .cmd-content { max-width: 90%; } }
 
-        .image-modal-close {
-            position: absolute; top: 30px; right: 40px;
-            color: #f1f1f1; font-size: 40px; font-weight: bold;
-            transition: 0.3s; cursor: pointer; z-index: 2001;
-        }
-        .image-modal-close:hover { color: var(--secondary); text-decoration: none; }
-
-        @media (max-width: 1024px) {
-            .sidebar { transform: translateX(100%); }
-            .sidebar.active { transform: translateX(0); }
-            .main-content { margin-right: 0; width: 100%; padding: 20px; }
-            .mobile-toggle { display: block; }
-            .content-card { padding: 30px 20px; }
-            .scroll-top { left: auto; right: 25px; bottom: 25px; }
-            .image-modal-content { max-width: 95%; }
-        }
-		/* === תוספות עבור סידור תמונות וכיתוב === */
-        .img-caption {
-            text-align: center;
-            font-size: 0.9em;
-            color: var(--text-medium);
-            margin-top: -15px; /* מקרב את הטקסט לתמונה */
-            margin-bottom: 25px;
-            font-style: italic;
-        }
-
-        /* === סידור תמונות חכם (הקוד המתוקן והסופי) === */
-        .image-row {
-            display: flex;
-            gap: 15px;             /* רווח בין התמונות */
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-
-        /* 1. הגדרות לעמודות (בין אם זה figure ובין אם זה img לבד) */
-        .image-row > figure,
-        .image-row > img {
-            flex: 1;               /* מחלק את המקום שווה בשווה */
-            min-width: 0;          /* מונע גלישה */
-            margin: 0 !important;  /* מאפס שוליים של דפדפן */
-            padding: 0;
-            text-align: center;    /* ממרכז כיתוב */
-            object-fit: cover;
-        }
-
-        /* 2. הגדרות לתמונה שנמצאת בתוך figure (כדי שתמלא אותו) */
-        .image-row figure img {
-            width: 100%;           /* נמתח לרוחב ה-figure */
-            height: auto;
-            display: block;        /* מונע רווחים מיותרים */
-            margin: 0 auto 8px !important; /* רווח קטן לכיתוב */
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            object-fit: cover;
-        }
-
-        /* 3. עיצוב לכיתוב */
-        .image-row figcaption {
-            font-size: 0.9em;
-            color: var(--text-medium);
-            line-height: 1.4;
-            padding: 0 5px;
-        }
-
-        /* מובייל */
-        @media (max-width: 768px) {
-            .image-row { flex-direction: column; }
-            .image-row > figure,
-            .image-row > img { width: 100%; margin-bottom: 15px !important; }
-        }
+        .image-row { display: flex; gap: 15px; justify-content: center; align-items: flex-start; width: 100%; margin: 25px 0; flex-wrap: wrap; }
+        .image-row > figure, .image-row > img { flex: 1; min-width: 0; margin: 0 !important; padding: 0; text-align: center; object-fit: cover; }
+        .image-row figure img { width: 100%; height: auto; display: block; margin: 0 auto 8px !important; border-radius: 8px; border: 1px solid var(--border); object-fit: cover; }
+        .image-row figcaption { font-size: 0.9em; color: var(--text-medium); line-height: 1.4; padding: 0 5px; font-style: italic; }
+        @media (max-width: 768px) { .image-row { flex-direction: column; } .image-row > figure, .image-row > img { width: 100%; margin-bottom: 15px !important; } }
     </style>
 </head>
 <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWB45FSZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <div class="progress-container"><div class="progress-bar" id="readingProgress"></div></div>
 
-	<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWB45FSZ"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
     <div class="main-container">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-fixed-top">
                 <div class="theme-toggle-container">
-                    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme"><i class="fas fa-moon"></i></button>
                 </div>
                 <div class="sidebar-header">
-                    <div class="logo-container">
-                        <img src="icon.png" alt="Logo" class="logo" id="logoImage">
-                    </div>
+                    <div class="logo-container"><img src="icon.png" alt="Logo" class="logo" id="logoImage"></div>
                     <div class="logo-text">
                         <h1>LifeAi</h1>
                         <div class="subtitle">דוקומנטציה מערכת Tool AIbit</div>
                     </div>
                 </div>
-                <div class="search-container">
+                
+                <div class="search-container" id="openCommandPalette">
                     <div class="search-box">
-                        <input type="text" class="search-input" id="searchInput" placeholder="חפש בתיעוד...">
+                        <div class="search-fake-input">
+                            <span>חפש במערכת...</span>
+                        </div>
                         <i class="fas fa-search search-icon"></i>
                     </div>
                 </div>
             </div>
+            
             <div class="sidebar-scroll-area">
                 <div class="page-navigation" id="pageNav"></div>
-                <div class="section-badge">תוכן עניינים</div>
+                <div class="section-badge">תוכן עניינים מקומי</div>
                 <nav><ul class="toc-list" id="tocList"></ul></nav>
-                <div id="noResults" style="display:none; text-align:center; padding:20px; color:var(--text-light); font-size:13px;">לא נמצאו תוצאות</div>
             </div>
         </aside>
 
         <main class="main-content">
-            <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-            <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+            <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Open Menu"><i class="fas fa-bars"></i></button>
             <div class="content-card">
                 <div class="preview" id="docsPreview"></div>
             </div>
         </main>
     </div>
 
-    <!-- פופאפ תמונות (Modal) -->
+    <!-- פופאפ תמונות -->
     <div id="imageModal" class="image-modal">
-        <span class="image-modal-close">&times;</span>
-        <img class="image-modal-content" id="imgModalSrc">
+        <button class="image-modal-close" aria-label="Close modal" style="background:none;border:none;">&times;</button>
+        <img class="image-modal-content" id="imgModalSrc" alt="Preview Image">
         <div id="imgModalCaption" class="image-modal-caption"></div>
     </div>
+
+    <!-- Command Palette Modal -->
+    <div id="cmdModal" class="cmd-modal">
+        <div class="cmd-content">
+            <div class="cmd-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" class="cmd-input" id="cmdInput" placeholder="חפש מדריכים, פקודות או טקסט..." autocomplete="off">
+            </div>
+            <div class="cmd-results" id="cmdResults"></div>
+        </div>
+    </div>
+
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
 
     <!-- טעינת התוכן -->
     <script src="content.js"></script>
 
     <script>
-        // === Theme Logic ===
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
         const savedTheme = localStorage.getItem('theme');
@@ -469,8 +292,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
 
         themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
                 themeIcon.className = 'fas fa-moon';
@@ -481,7 +303,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
 
-        // === Main Logic ===
         let currentPage = 'guide'; 
 
         function init() {
@@ -489,19 +310,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 document.getElementById('docsPreview').innerHTML = '<h2 style="color:red">שגיאה: content.js חסר.</h2>';
                 return;
             }
-
             const urlParams = new URLSearchParams(window.location.search);
-            const pageParam = urlParams.get('page');
-
-            if (pageParam && pagesData[pageParam]) {
-                currentPage = pageParam;
+            if (urlParams.get('page') && pagesData[urlParams.get('page')]) {
+                currentPage = urlParams.get('page');
             }
 
             renderPageNavigation();
-            loadPage(currentPage);
+            loadPage(currentPage, urlParams.get('mark'), parseInt(urlParams.get('idx')) || 0);
             setupEventListeners();
-            setupScrollTop();
-            setupModalLogic();
+            setupScrollTopAndProgress();
+            setupImageModalLogic();
+            setupCommandPalette();
         }
 
         function renderPageNavigation() {
@@ -509,14 +328,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             nav.innerHTML = '';
             Object.keys(pagesData).forEach(key => {
                 const page = pagesData[key];
-                const btn = document.createElement('div');
+                const btn = document.createElement('button');
                 btn.className = `nav-btn ${key === currentPage ? 'active' : ''}`;
                 if (key === 'updates') btn.id = 'btn-updates';
                 btn.innerHTML = `<i class="${page.icon}"></i> ${page.title}`;
-                
                 btn.onclick = () => {
-                    const newUrl = `?page=${key}`;
-                    window.history.pushState({page: key}, '', newUrl);
+                    window.history.pushState({page: key}, '', `?page=${key}`);
                     loadPage(key);
                 };
                 nav.appendChild(btn);
@@ -524,61 +341,91 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
 
         function slugify(text) {
-            return text.toString().toLowerCase().trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w\u0590-\u05ff\-]+/g, '')
-                .replace(/\-\-+/g, '-');
+            return text.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\u0590-\u05ff\-]+/g, '').replace(/\-\-+/g, '-');
         }
 
         function addAnchorsToHeadings() {
-            const headings = document.querySelectorAll('#docsPreview h1, #docsPreview h2, #docsPreview h3');
-            headings.forEach(h => {
-                const text = h.textContent;
-                const id = slugify(text);
-                h.id = id;
+            document.querySelectorAll('#docsPreview h1, #docsPreview h2, #docsPreview h3').forEach(h => {
+                h.id = slugify(h.textContent);
                 const link = document.createElement('a');
                 link.className = 'anchor-link';
-                link.href = `?page=${currentPage}#${id}`;
+                link.href = `?page=${currentPage}#${h.id}`;
                 link.innerHTML = '<i class="fas fa-link"></i>';
                 h.insertBefore(link, h.firstChild);
             });
         }
 
-        // === פונקציה לטיפול בתמונות (ללא כיתוב אוטומטי בדף) ===
         function setupImages() {
-            const images = document.querySelectorAll('#docsPreview img');
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('imgModalSrc');
             const captionText = document.getElementById('imgModalCaption');
 
-            images.forEach(img => {
-                // רק מגדירים לחיצה לפופאפ
-                img.style.cursor = 'pointer'; // יד מצביעה
-                
+            document.querySelectorAll('#docsPreview img').forEach(img => {
+                img.style.cursor = 'pointer'; 
                 img.onclick = () => {
                     modal.style.display = "flex";
                     modalImg.src = img.src;
-                    // הכיתוב בפופאפ עדיין ילקח מה-ALT, זה הסטנדרט
                     captionText.innerHTML = img.alt;
                 };
                 img.title = "לחץ להגדלה"; 
             });
         }
 
-        function setupModalLogic() {
+        function setupImageModalLogic() {
             const modal = document.getElementById('imageModal');
-            const span = document.getElementsByClassName("image-modal-close")[0];
-
-            span.onclick = function() { modal.style.display = "none"; }
-            window.onclick = function(event) {
-                if (event.target == modal) modal.style.display = "none";
-            }
-            document.addEventListener('keydown', function(event){
-                if(event.key === "Escape") modal.style.display = "none";
-            });
+            document.querySelector('.image-modal-close').onclick = () => modal.style.display = "none";
+            window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
+            document.addEventListener('keydown', (e) => { if(e.key === "Escape") modal.style.display = "none"; });
         }
 
-        function loadPage(pageKey) {
+        // פונקציה משופרת לקפיצה מדוייקת למילה לפי האינדקס שלה בתוצאות (0, 1, 2...)
+        function highlightAndScrollToTerm(term, targetIndex = 0) {
+            if (!term) return;
+            const preview = document.getElementById('docsPreview');
+            const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
+            
+            const walker = document.createTreeWalker(preview, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes =[];
+
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                const parentTag = node.parentNode.tagName;
+                if (parentTag !== 'SCRIPT' && parentTag !== 'STYLE' && parentTag !== 'MARK' && regex.test(node.nodeValue)) {
+                    textNodes.push(node);
+                }
+            }
+
+            const allMarks =[];
+
+            textNodes.forEach(node => {
+                const span = document.createElement('span');
+                span.innerHTML = escapeHTML(node.nodeValue).replace(regex, '<mark class="highlight-jump">$1</mark>');
+                
+                const parent = node.parentNode;
+                while (span.firstChild) {
+                    const child = span.firstChild;
+                    parent.insertBefore(child, node);
+                    if (child.tagName === 'MARK') {
+                        allMarks.push(child);
+                    }
+                }
+                parent.removeChild(node);
+            });
+
+            // אם האינדקס לא קיים, ניקח את הראשון שנמצא
+            const targetMark = allMarks[targetIndex] || allMarks[0];
+
+            if (targetMark) {
+                setTimeout(() => {
+                    const headerOffset = 120;
+                    const elementPosition = targetMark.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }, 300);
+            }
+        }
+
+        function loadPage(pageKey, searchQuery = null, searchIndex = 0) {
             currentPage = pageKey;
             const page = pagesData[pageKey];
             
@@ -598,11 +445,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 addCopyButtons();
                 setupImages(); 
                 
-                if (window.location.hash) {
-                    const id = window.location.hash.substring(1);
+                if (window.Prism) Prism.highlightAllUnder(preview);
+                
+                if (searchQuery) {
+                    highlightAndScrollToTerm(searchQuery, searchIndex);
+                }
+                else if (window.location.hash) {
+                    const id = decodeURIComponent(window.location.hash.substring(1));
                     setTimeout(() => {
-                        const element = document.getElementById(decodeURIComponent(id));
-                        if (element) element.scrollIntoView({behavior: 'smooth'});
+                        const el = document.getElementById(id);
+                        if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
                     }, 100);
                 } else {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -616,53 +468,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const headings = Array.from(document.getElementById('docsPreview').querySelectorAll('h1, h2, h3'));
             
             if (headings.length === 0) {
-                tocList.innerHTML = '<li style="padding:10px; font-size:12px; opacity:0.6; color:var(--text-light)">אין כותרות</li>';
+                tocList.innerHTML = '<li style="padding:10px; font-size:12px; opacity:0.6; color:var(--text-light)">אין כותרות להצגה</li>';
                 return;
             }
 
-            let currentH1List = null; 
-            let currentH2List = null; 
+            let currentH1List = null, currentH2List = null; 
 
-            headings.forEach((h, index) => {
+            headings.forEach((h) => {
                 const level = parseInt(h.tagName.charAt(1));
-                const li = document.createElement('li');
-                li.className = 'toc-item';
-                const row = document.createElement('div');
-                row.className = 'toc-row';
-                const arrow = document.createElement('span');
-                arrow.className = 'toc-arrow';
-                arrow.innerHTML = '<i class="fas fa-caret-left"></i>'; 
+                const li = document.createElement('li'); li.className = 'toc-item';
+                const row = document.createElement('div'); row.className = 'toc-row'; row.tabIndex = 0;
                 
-                const text = document.createElement('span');
-                text.className = 'toc-link-text';
-                text.textContent = h.childNodes[1] ? h.childNodes[1].textContent : h.textContent;
-
-                row.appendChild(arrow); row.appendChild(text); li.appendChild(row);
+                row.innerHTML = `<span class="toc-arrow"><i class="fas fa-caret-left"></i></span><span class="toc-link-text">${h.childNodes[1] ? h.childNodes[1].textContent : h.textContent}</span>`;
+                li.appendChild(row);
+                
                 const childrenUl = document.createElement('ul'); li.appendChild(childrenUl);
                 
-                row.onclick = (e) => {
+                const activateRow = () => {
                     h.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    const newUrl = `?page=${currentPage}#${h.id}`;
-                    history.pushState(null, null, newUrl);
-
+                    history.pushState(null, null, `?page=${currentPage}#${h.id}`);
                     document.querySelectorAll('.toc-row').forEach(r => r.classList.remove('active'));
                     row.classList.add('active');
                     if (!li.classList.contains('no-children')) li.classList.toggle('open');
-                    if(window.innerWidth <= 1024 && li.classList.contains('no-children')) {
-                        document.getElementById('sidebar').classList.remove('active');
-                    }
+                    if(window.innerWidth <= 1024 && li.classList.contains('no-children')) document.getElementById('sidebar').classList.remove('active');
                 };
+                
+                row.onclick = activateRow; row.onkeydown = (e) => { if (e.key === 'Enter') activateRow(); };
 
                 if (level === 1) { tocList.appendChild(li); currentH1List = childrenUl; currentH2List = null; } 
                 else if (level === 2) { 
                     if (currentH1List) { currentH1List.parentElement.classList.remove('no-children'); currentH1List.appendChild(li); } 
-                    else { tocList.appendChild(li); }
+                    else tocList.appendChild(li); 
                     currentH2List = childrenUl; 
                 }
                 else if (level === 3) {
                     if (currentH2List) { currentH2List.parentElement.classList.remove('no-children'); currentH2List.appendChild(li); }
                     else if (currentH1List) { currentH1List.parentElement.classList.remove('no-children'); currentH1List.appendChild(li); }
-                    else { tocList.appendChild(li); }
+                    else tocList.appendChild(li); 
                 }
                 li.classList.add('no-children');
             });
@@ -670,89 +512,193 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         function addCopyButtons() {
             document.querySelectorAll('pre').forEach(pre => {
-                // בדיקה כדי לא להוסיף פעמיים
                 if (pre.parentElement.classList.contains('code-wrapper')) return;
+                const wrapper = document.createElement('div'); wrapper.className = 'code-wrapper';
+                pre.parentNode.insertBefore(wrapper, pre); wrapper.appendChild(pre);
 
-                // 1. יצירת קופסה עוטפת (Wrapper)
-                const wrapper = document.createElement('div');
-                wrapper.className = 'code-wrapper';
-
-                // 2. הכנסת העוטף לדף לפני ה-pre
-                pre.parentNode.insertBefore(wrapper, pre);
-
-                // 3. העברת ה-pre לתוך העוטף
-                wrapper.appendChild(pre);
-
-                // 4. יצירת הכפתור
-                const btn = document.createElement('button');
-                btn.className = 'copy-button';
-                btn.innerHTML = '<i class="fas fa-copy"></i>';
+                const btn = document.createElement('button'); btn.className = 'copy-button';
+                btn.innerHTML = '<i class="far fa-copy"></i>';
+                btn.title = "העתק קוד";
                 
                 btn.onclick = () => {
-                    // מוצאים את הקוד
-                    const code = pre.querySelector('code').innerText;
-                    navigator.clipboard.writeText(code);
-                    
-                    // שינוי אייקון לסימון הצלחה
+                    navigator.clipboard.writeText(pre.textContent);
                     btn.innerHTML = '<i class="fas fa-check"></i>';
-                    setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);
+                    btn.classList.add('success');
+                    setTimeout(() => { 
+                        btn.innerHTML = '<i class="far fa-copy"></i>'; 
+                        btn.classList.remove('success'); 
+                    }, 2000);
                 };
-
-                // 5. הוספת הכפתור לעוטף (ולא לתוך ה-pre הנגלל!)
                 wrapper.appendChild(btn);
             });
         }
 
-        function setupScrollTop() {
+        function setupScrollTopAndProgress() {
             const scrollTopBtn = document.getElementById('scrollTop');
+            const progressBar = document.getElementById('readingProgress');
+            
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 300) scrollTopBtn.classList.add('visible');
                 else scrollTopBtn.classList.remove('visible');
+                
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                progressBar.style.width = ((winScroll / height) * 100) + "%";
             });
-            scrollTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+
+        function escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+        function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])); }
+
+        function setupCommandPalette() {
+            const modal = document.getElementById('cmdModal');
+            const input = document.getElementById('cmdInput');
+            const resultsDiv = document.getElementById('cmdResults');
+            const trigger = document.getElementById('openCommandPalette');
+            let isModalOpen = false;
+
+            const openModal = () => {
+                modal.style.display = 'flex';
+                input.value = ''; resultsDiv.innerHTML = '';
+                setTimeout(() => input.focus(), 100);
+                isModalOpen = true;
+            };
+            const closeModal = () => { modal.style.display = 'none'; isModalOpen = false; };
+
+            trigger.addEventListener('click', openModal);
+            
+            // סגירה עם Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isModalOpen) closeModal();
             });
+
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+            let searchTimeout;
+            input.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = e.target.value.trim();
+                    if (!query) { resultsDiv.innerHTML = ''; return; }
+
+                    let resultsHTML = '';
+                    const safeQuery = escapeHTML(query);
+                    const highlightRegex = new RegExp(`(${escapeRegExp(safeQuery)})`, 'gi');
+                    const searchRegex = new RegExp(escapeRegExp(query), 'gi');
+
+                    Object.keys(pagesData).forEach(key => {
+                        const page = pagesData[key];
+                        const titleMatch = page.title.match(searchRegex);
+                        
+                        let allMatches =[];
+                        let occurrenceIndex = 0;
+                        
+                        // קריאת השורות כדי לדעת איזה התאמה נמצאת בכותרת ואיזה לא, אך שמירה על אינדקס גלובלי (לפי סדר הטקסט)
+                        const lines = page.content.split('\n');
+                        
+                        lines.forEach(line => {
+                            const isHeading = /^#+\s/.test(line);
+                            let cleanLine = line.replace(/[#*`\[\]()]/g, '').trim();
+                            let localMatch;
+                            searchRegex.lastIndex = 0;
+                            
+                            while ((localMatch = searchRegex.exec(cleanLine)) !== null) {
+                                const start = Math.max(0, localMatch.index - 40);
+                                const end = Math.min(cleanLine.length, localMatch.index + query.length + 80);
+                                let excerpt = cleanLine.substring(start, end);
+                                excerpt = (start > 0 ? '...' : '') + excerpt + (end < cleanLine.length ? '...' : '');
+                                
+                                allMatches.push({
+                                    excerpt: excerpt,
+                                    isHeading: isHeading,
+                                    occurrenceIndex: occurrenceIndex
+                                });
+                                occurrenceIndex++;
+                            }
+                        });
+
+                        // מיון - כותרות קודם
+                        allMatches.sort((a, b) => (a.isHeading === b.isHeading) ? 0 : a.isHeading ? -1 : 1);
+
+                        // בחירת עד 3 תוצאות, ללא כפילויות במראה הטקסט
+                        const uniqueSnippets =[];
+                        const seenExcerpts = new Set();
+                        for (const m of allMatches) {
+                            if (!seenExcerpts.has(m.excerpt)) {
+                                seenExcerpts.add(m.excerpt);
+                                uniqueSnippets.push(m);
+                                if (uniqueSnippets.length === 3) break;
+                            }
+                        }
+
+                        if (titleMatch || uniqueSnippets.length > 0) {
+                            let displayTitle = escapeHTML(page.title);
+                            if (titleMatch) {
+                                displayTitle = displayTitle.replace(highlightRegex, '<mark class="highlight">$1</mark>');
+                            }
+
+                            const encodedQuery = encodeURIComponent(query);
+                            let snippetsHtml = '';
+
+                            uniqueSnippets.forEach(m => {
+                                let highlightedExcerpt = escapeHTML(m.excerpt).replace(highlightRegex, '<mark class="highlight">$1</mark>');
+                                snippetsHtml += `
+                                    <div class="cmd-result-excerpt ${m.isHeading ? 'heading-match' : ''}" 
+                                         onclick="navigateFromSearch('${key}', '${encodedQuery}', ${m.occurrenceIndex})">
+                                        ${m.isHeading ? '<i class="fas fa-heading"></i> ' : ''}${highlightedExcerpt}
+                                    </div>`;
+                            });
+
+                            resultsHTML += `
+                                <div class="cmd-result-item">
+                                    <div class="cmd-result-title" onclick="navigateFromSearch('${key}', '${encodedQuery}', 0)">
+                                        <i class="${page.icon}"></i> ${displayTitle}
+                                    </div>
+                                    ${snippetsHtml ? `<div class="cmd-snippets-container">${snippetsHtml}</div>` : ''}
+                                </div>
+                            `;
+                        }
+                    });
+
+                    resultsDiv.innerHTML = resultsHTML || '<div class="cmd-empty">לא נמצאו תוצאות עבור החיפוש...</div>';
+                }, 300);
+            });
+
+            window.navigateFromSearch = (key, encodedQuery = '', targetIndex = 0) => {
+                closeModal();
+                const decodedQuery = encodedQuery ? decodeURIComponent(encodedQuery) : '';
+                const url = new URL(window.location);
+                
+                url.searchParams.set('page', key);
+                if (decodedQuery) {
+                    url.searchParams.set('mark', decodedQuery);
+                    url.searchParams.set('idx', targetIndex);
+                } else {
+                    url.searchParams.delete('mark');
+                    url.searchParams.delete('idx');
+                }
+                
+                window.history.pushState({page: key}, '', url.toString());
+                loadPage(key, decodedQuery, targetIndex);
+                
+                if(window.innerWidth <= 1024) document.getElementById('sidebar').classList.remove('active');
+            };
         }
 
         function setupEventListeners() {
             window.addEventListener('popstate', () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const pageParam = urlParams.get('page');
-                if (pageParam && pagesData[pageParam]) {
-                    loadPage(pageParam);
-                }
-            });
-
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                const val = e.target.value.toLowerCase();
-                const allLis = document.querySelectorAll('.toc-list li');
-                const noResults = document.getElementById('noResults');
-                if (!val) {
-                    allLis.forEach(li => { li.style.display = 'block'; li.classList.remove('open'); });
-                    noResults.style.display = 'none'; return;
-                }
-                let anyMatch = false;
-                allLis.forEach(li => li.style.display = 'none');
-                allLis.forEach(li => {
-                    const text = li.querySelector('.toc-link-text').textContent.toLowerCase();
-                    if(text.includes(val)) {
-                        li.style.display = 'block'; 
-                        let curr = li;
-                        while(curr && curr.id !== 'tocList') {
-                            if (curr.tagName === 'LI') { curr.style.display = 'block'; curr.classList.add('open'); }
-                            curr = curr.parentElement;
-                        }
-                        anyMatch = true;
-                    }
-                });
-                noResults.style.display = anyMatch ? 'none' : 'block';
+                const markParam = urlParams.get('mark');
+                const idxParam = parseInt(urlParams.get('idx')) || 0;
+                if (pageParam && pagesData[pageParam]) loadPage(pageParam, markParam, idxParam);
             });
             const sidebar = document.getElementById('sidebar');
             const btn = document.getElementById('mobileToggle');
             btn.onclick = () => {
                 sidebar.classList.toggle('active');
-                const icon = btn.querySelector('i');
-                icon.className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+                btn.querySelector('i').className = sidebar.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
             };
         }
 
