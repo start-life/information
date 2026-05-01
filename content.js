@@ -182,7 +182,7 @@ Create a picture for me of a cat climbing a tree.
 \`\`\`bash
 --ACE --P An energetic retro synth-pop track set in a nearly empty roller rink after closing time, glowing floors, humming amplifiers, soft announcer echoes, crisp drum machines, elastic bassline, bright analog synth leads, catchy female vocals, nostalgic yet stylish, polished studio mix, strong chorus, cinematic build, playful late-night momentum
 \`\`\`
-\`--V\` להזנת מילות השיר
+\`--L\` להזנת מילות השיר
 \`\`\`bash
 --ACE --L [Verse 1]
 השמש שוב עולה מעל העיר
